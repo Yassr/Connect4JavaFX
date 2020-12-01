@@ -3,6 +3,8 @@ package application;
 import java.util.Optional;
 
 import javafx.animation.TranslateTransition;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -54,11 +56,28 @@ class Disc extends Circle{
 		}while(row >= 0);
 			
 		if(row < 0) {
+//			Alert winAlert = new Alert(AlertType.INFORMATION);
+//	        winAlert.setTitle("Game Over!");
+//	        winAlert.setHeaderText(null);
+//	        winAlert.setContentText("DRAW");
+//	        winAlert.show();
 			return;
 		}
 		
+		
+		
 		grid[column][row] = disc;
-		getDiscRoot().getChildren().add(disc);
+		
+		if(row < 0 || column < 0) {
+			Alert winAlert = new Alert(AlertType.INFORMATION);
+	        winAlert.setTitle("Game Over!");
+	        winAlert.setHeaderText(null);
+	        winAlert.setContentText("DRAW");
+	        winAlert.show();
+			return;
+		}
+		
+		discRoot.getChildren().add(disc);
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping

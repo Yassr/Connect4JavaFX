@@ -4,20 +4,9 @@ import javafx.application.Application;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.TilePane;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets; 
 
 
 
@@ -25,7 +14,19 @@ public class GameMain extends Application{
 	
 	private static Pane mainroot = new Pane();
 	private static Stage stage;
+	private static Scene scene1 = new Scene(MainMenu.preference(), 450, 500);
 	
+	private static Scene mainscene= new Scene(startGame());
+	
+	public static Scene getScene1() {
+		return scene1;
+	}
+	
+
+	public static Scene getMainscene() {
+		return mainscene;
+	}
+
 
 
 	public static Pane getMainroot() {
@@ -38,7 +39,8 @@ public class GameMain extends Application{
 
 
 
-	public void setStage(Stage stage) {
+	@SuppressWarnings("static-access")
+	public void setStage(Stage stage) { 
 		this.stage = stage;
 	}
 
@@ -54,20 +56,17 @@ public class GameMain extends Application{
 		mainroot.getChildren().add(gridShape);
 		mainroot.getChildren().addAll(GameDesign.selection());
 		
-		
 		return mainroot;
 	}
 	
 	
-	
+
 	@Override
     public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Connect 4");
 		
 		stage = primaryStage;
 
-
-		Scene scene1 = new Scene(MainMenu.preference(), 450, 500);
 		
 		primaryStage.setScene(scene1);
         primaryStage.show();
