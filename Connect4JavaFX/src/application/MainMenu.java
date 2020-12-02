@@ -7,8 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -63,16 +61,7 @@ public class MainMenu {
 		welcomelbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
 		welcomelbl.setTextFill(Color.AQUA);
 		
-		// Example lighting from found in Light superclass
-		Light.Distant light = new Light.Distant();
-        light.setAzimuth(45.0);
-        light.setElevation(30.0);
-
-        Lighting colourDepth = new Lighting();
-        colourDepth.setLight(light);
-        colourDepth.setSurfaceScale(5.0);
-		
-		welcomelbl.setEffect(colourDepth);
+		welcomelbl.setEffect(GameDesign.lighting3D());
 		titlelbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 16));
 		
 		startBtn.setPrefSize(GameDesign.getTileSize()*2,GameDesign.getTileSize());

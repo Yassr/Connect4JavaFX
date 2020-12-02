@@ -13,13 +13,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
-import javafx.scene.layout.Border;
+
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -56,33 +56,36 @@ public class EndScreen {
 		TextArea leaderArea = new TextArea();
 		
 		
-		Label titlelbl = new Label("Congratulations "+winnerName+"!!!");
+		Label titlelbl = new Label("Congratulations: "+winnerName);
 		titlelbl.setTextFill(Color.web(winnerColour));
 		
-		// Example lighting from found in Light superclass
-		Light.Distant light = new Light.Distant();
-        light.setAzimuth(45.0);
-        light.setElevation(30.0);
-
-        Lighting colourDepth = new Lighting();
-        colourDepth.setLight(light);
-        colourDepth.setSurfaceScale(5.0);
 		
-        titlelbl.setEffect(colourDepth);
+        titlelbl.setEffect(GameDesign.lighting3D());
        
 		
 		// Creating Text input
-		Text loserTxt = new Text("Loser: " + loserName);
+		Text loserTxt = new Text("Better Luck Next time " + loserName);
 		loserTxt.setFill(Color.web(loserColour));
 		
 		
-		loserTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 15));
-		loserTxt.setEffect(colourDepth);
+		loserTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 20));
+		loserTxt.setEffect(GameDesign.lighting3D());
 		
 		resetBtn.setOnAction(event -> {
 			try {
 				 
 //				GameMain.getStage().setScene(GameMain.getMainscene());
+				
+				Pane restartpane = new Pane();
+				
+				restartpane.getChildren().add(Disc.getDiscRoot());
+				
+				Shape gridShape = GameDesign.makeGrid();
+				
+				restartpane.getChildren().add(gridShape);
+				restartpane.getChildren().addAll(GameDesign.selection());
+				
+				GameMain.getStage().setScene(new Scene(restartpane));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -133,22 +136,17 @@ public class EndScreen {
 		StackPane leaderPane = new StackPane(leaderArea);
 		leaderPane.setMinSize(280, 250);
 		
-//		for(String leaderboard : Leaderboard.getLeaderboard()) {
-//			leaderArea.appendText(leaderboard + "\n");
-//		}
-		
-		
 		
 		Label winlbl= new Label("Winner");
-		Label loselbl= new Label("Loser");
+		Label loselbl= new Label("        Loser");
 		HBox wbox = new HBox(70);
 		
 		winlbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 22));
 		winlbl.setTextFill(Color.web(winnerColour));
-		winlbl.setEffect(colourDepth);
+		winlbl.setEffect(GameDesign.lighting3D());
 		loselbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 22));
 		loselbl.setTextFill(Color.web(loserColour));
-		loselbl.setEffect(colourDepth);
+		loselbl.setEffect(GameDesign.lighting3D());
 		
 		HBox hbox = new HBox(70);
 		

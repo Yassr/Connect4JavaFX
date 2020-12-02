@@ -1,12 +1,7 @@
 package application;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -42,7 +37,6 @@ public class Leaderboard {
 	
 	public static ArrayList<String> read(File saveFile) {
 		try {
-//			File saveFile = new File("leaderboard.txt");
 			
 			if(!saveFile.exists()) {
 				saveFile.createNewFile();
@@ -50,27 +44,6 @@ public class Leaderboard {
 			
 			
 			Scanner in = new Scanner(saveFile);
-//			String line;
-//			BufferedReader br = new BufferedReader(new FileReader(saveFile));
-//			
-//			line = br.readLine();
-//			
-//			if(line.isEmpty() || line.trim().equals("") || line.trim().equals("\n") || line == null) {
-//				
-//			}else {
-//				String[] input = line.split(" ");
-//				if(input[0].length() <= 6 ) {
-//					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t"+ input[1]);
-//				}else if(input[0].length() > 6){
-//					input[0].substring(0, 5);
-//					Leaderboard.getLeaderboard().add(input[0]+"\t\t"+ input[1]);
-//				}
-//					
-//				
-//			}
-//			
-//			br.close();
-			
 			
 			while(in.hasNextLine()) {
 				String cleaner = in.nextLine().replaceAll("(?m)^\\s+$", "");

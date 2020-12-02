@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.paint.Color;
@@ -153,20 +154,24 @@ public class GameDesign {
 				board = Shape.subtract(board, circle);
 			}
 		}
-		
-		// Example lighting from found in Light superclass
-		Light.Distant light = new Light.Distant();
-        light.setAzimuth(45.0);
-        light.setElevation(30.0);
 
-        Lighting colourDepth = new Lighting();
-        colourDepth.setLight(light);
-        colourDepth.setSurfaceScale(5.0);
-		
 		board.setFill(Color.AQUA);
-		board.setEffect(colourDepth);
+		board.setEffect(lighting3D());
 		
 		return board;
+	}
+	
+	public static Effect lighting3D() {
+		// Example lighting from found in Light superclass
+				Light.Distant light = new Light.Distant();
+		        light.setAzimuth(45.0);
+		        light.setElevation(30.0);
+
+		        Lighting colourDepth = new Lighting();
+		        colourDepth.setLight(light);
+		        colourDepth.setSurfaceScale(5.0);
+				
+		        return colourDepth;
 	}
 	
 	
