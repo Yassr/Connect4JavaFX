@@ -163,15 +163,15 @@ public class GameDesign {
 	
 	public static Effect lighting3D() {
 		// Example lighting from found in Light superclass
-				Light.Distant light = new Light.Distant();
-		        light.setAzimuth(45.0);
-		        light.setElevation(30.0);
+		Light.Distant light = new Light.Distant();
+        light.setAzimuth(45.0);
+        light.setElevation(30.0);
 
-		        Lighting colourDepth = new Lighting();
-		        colourDepth.setLight(light);
-		        colourDepth.setSurfaceScale(5.0);
-				
-		        return colourDepth;
+        Lighting colourDepth = new Lighting();
+        colourDepth.setLight(light);
+        colourDepth.setSurfaceScale(5.0);
+		
+        return colourDepth;
 	}
 	
 	
