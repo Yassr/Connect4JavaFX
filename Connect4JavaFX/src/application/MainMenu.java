@@ -32,9 +32,9 @@ public class MainMenu {
 		rowlbl.setTooltip(new Tooltip("Default Rows is 6 and therefore the minimum"));
 		
 		
-		Spinner<Integer> columnSpinner = new Spinner<>(7, 25, 0, 1);
+		Spinner<Integer> columnSpinner = new Spinner<>(7, 10, 0, 1);
 
-		Spinner<Integer> rowSpinner = new Spinner<>(6, 25, 0, 1);
+		Spinner<Integer> rowSpinner = new Spinner<>(6, 9, 0, 1);
 
 		
 		// Creating Text input
@@ -47,9 +47,9 @@ public class MainMenu {
 		
 		
 		TextField nameInput1 = new TextField();
-		nameInput1.setPromptText("Choose a name");
+		nameInput1.setPromptText("Choose a name (max 6 chars)");
 		TextField nameInput2 = new TextField();
-		nameInput2.setPromptText("Choose a name");
+		nameInput2.setPromptText("Choose a name (max 6 chars)");
 		
 		startBtn.setOnAction(e -> {
 			GameDesign.setCOLUMNS(columnSpinner.getValue());

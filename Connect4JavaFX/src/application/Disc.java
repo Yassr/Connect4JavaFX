@@ -20,7 +20,6 @@ class Disc extends Circle{
 	private static Disc[][] grid = new Disc[GameDesign.getColumns()][GameDesign.getRows()];
 	private static Pane discRoot = new Pane();
 	
-	
 	boolean isColour1() {
 		return colour1;
 	}

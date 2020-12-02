@@ -16,16 +16,16 @@ public class GameMain extends Application{
 	private static Stage stage;
 	private static Scene scene1 = new Scene(MainMenu.preference(), 450, 500);
 	
-	private static Scene mainscene= new Scene(startGame());
+//	private static Scene mainscene= new Scene(startGame());
 	
 	public static Scene getScene1() {
 		return scene1;
 	}
 	
 
-	public static Scene getMainscene() {
-		return mainscene;
-	}
+//	public static Scene getMainscene() {
+//		return mainscene;
+//	}
 
 
 

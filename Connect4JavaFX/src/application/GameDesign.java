@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Point2D;
+import javafx.scene.Scene;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.paint.Color;
@@ -55,6 +56,10 @@ public class GameDesign {
 			}else {
 				player.setName(fixName);
 			}
+			
+			if(fixName.length() > 6) {
+				player.setName(fixName.substring(0,5));
+			}
 		}
 		
 		//		players.get(0);
@@ -67,7 +72,6 @@ public class GameDesign {
 	public static void setCOLUMNS(int cOLUMNS) {
 		COLUMNS = cOLUMNS;
 	}
-
 
 
 
@@ -126,7 +130,7 @@ public class GameDesign {
 	
 	static void handleButtonAction(ActionEvent event) {
 		
-		GameMain.getStage().setScene(GameMain.getMainscene());
+		GameMain.getStage().setScene(new Scene(GameMain.startGame()));
 	}
 	
 	
@@ -226,6 +230,7 @@ public class GameDesign {
 			if(disc.isColour1() == player1Move) {
 				combo++;
 				if(combo == 4) {
+					
 					return true;
 				}
 			}else {
