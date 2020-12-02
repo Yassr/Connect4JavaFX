@@ -80,10 +80,10 @@ public class Leaderboard {
 					continue;
 				}
 				if(input[0].length() <= 6 ) {
-					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t"+ input[1]);
+					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t\t"+ input[1]);
 				}else if(input[0].length() > 6){
 					input[0].substring(0, 5);
-					Leaderboard.getLeaderboard().add(input[0]+"\t\t"+ input[1]);
+					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t"+ input[1]);
 				}
 				
 			}

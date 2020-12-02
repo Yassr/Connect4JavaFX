@@ -57,8 +57,8 @@ public class GameDesign {
 				player.setName(fixName);
 			}
 			
-			if(fixName.length() > 6) {
-				player.setName(fixName.substring(0,5));
+			if(fixName.length() > 8) {
+				player.setName(fixName.substring(0,6));
 			}
 		}
 		

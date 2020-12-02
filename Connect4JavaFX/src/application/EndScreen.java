@@ -128,10 +128,10 @@ public class EndScreen {
 		} 
 		
 		leaderArea.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 18));
-		String cssWinner = winnerColour.replace("0x", "#");
+		leaderArea.setEditable(false);
 		
 		StackPane leaderPane = new StackPane(leaderArea);
-		leaderPane.setStyle("text-area-background:"+cssWinner+";");
+		leaderPane.setMinSize(280, 250);
 		
 //		for(String leaderboard : Leaderboard.getLeaderboard()) {
 //			leaderArea.appendText(leaderboard + "\n");
@@ -139,8 +139,16 @@ public class EndScreen {
 		
 		
 		
+		Label winlbl= new Label("Winner");
+		Label loselbl= new Label("Loser");
+		HBox wbox = new HBox(70);
 		
-		
+		winlbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 22));
+		winlbl.setTextFill(Color.web(winnerColour));
+		winlbl.setEffect(colourDepth);
+		loselbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 22));
+		loselbl.setTextFill(Color.web(loserColour));
+		loselbl.setEffect(colourDepth);
 		
 		HBox hbox = new HBox(70);
 		
@@ -155,9 +163,11 @@ public class EndScreen {
 		
 		gridPane.add(titlelbl, 2, 0);
 		gridPane.add(loserTxt, 2, 2);
-		gridPane.add(leaderPane, 2, 15);
+		wbox.getChildren().addAll(winlbl,loselbl);
+		gridPane.add(wbox, 2, 8);
+		gridPane.add(leaderPane, 2, 10);
 		hbox.getChildren().addAll(mainBtn,resetBtn);
-		gridPane.add(hbox, 2, 40);
+		gridPane.add(hbox, 2, 15);
 		
 		
 		return gridPane;
