@@ -59,14 +59,13 @@ public class GameDesign {
 			}
 			
 			if(fixName.length() > 8) {
-				player.setName(fixName.substring(0,6));
+				player.setName(fixName.substring(0,8));
 			}
 		}
 		
 		//		players.get(0);
 		
 	}
-	
 	
 	
 	
@@ -124,7 +123,7 @@ public class GameDesign {
 	
 	
 	
-	public GameDesign(int circle, Object object) {
+	public GameDesign() {
 		// TODO Auto-generated constructor stub
 	}
 
