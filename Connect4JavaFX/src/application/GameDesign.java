@@ -22,10 +22,7 @@ import javafx.scene.shape.Shape;
 
 
 /*
- *	@TODO Create player class and take player1Move along with Disc.colour1
- *		  Take in user names.
- *	  	  Take in colour choice.
- * 		  Save score board.
+ *	@TODO Add Music
  * 
  */
 
@@ -39,6 +36,8 @@ public class GameDesign {
 	private static final int CIRCLE = TILE_SIZE / 2;
 	private static ArrayList<Player> players = new ArrayList<Player>();
 	private static boolean player1Move= true;
+	private boolean music = true;
+	
 	
 	
 	public static void createPlayer(String name, String colour) {
@@ -61,6 +60,11 @@ public class GameDesign {
 			if(fixName.length() > 8) {
 				player.setName(fixName.substring(0,8));
 			}
+			
+			// Checks if the colour is empty somehow, and sets it to default colour of Red
+			if(!player.getColour().matches(".*\\w.*")) {
+				player.setColour("#ff0000");
+			}
 		}
 		
 		//		players.get(0);
@@ -69,14 +73,14 @@ public class GameDesign {
 	
 	
 	
-	public static void setCOLUMNS(int cOLUMNS) {
-		COLUMNS = cOLUMNS;
+	public static void setCOLUMNS(int columns) {
+		COLUMNS = columns;
 	}
 
 
 
-	public static void setROWS(int rOWS) {
-		ROWS = rOWS;
+	public static void setROWS(int rows) {
+		ROWS = rows;
 	}
 
 
@@ -175,8 +179,14 @@ public class GameDesign {
 	
 	
 	static List<Rectangle> selection(){
+		// Create a list of type Rectangle
 		List<Rectangle> list = new ArrayList<>();
 		
+		/* Choose all of the rows within the column
+		 * that the mouse is hovering over 
+		 * by giving this rectangle a colour (that is slightly transparent
+		 * we can create a selector so players know where they are on the board.
+		 */
 		for(int x = 0; x < COLUMNS; x++) {
 			Rectangle selector = new Rectangle(TILE_SIZE, (ROWS+1) * TILE_SIZE);
 			selector.setTranslateX(x * (TILE_SIZE + 5) + TILE_SIZE / 4);
@@ -213,12 +223,12 @@ public class GameDesign {
 		Point2D bottomLeft = new Point2D(column - 3, row + 3);
 		List<Point2D> diagonalB = IntStream.rangeClosed(0, 6).mapToObj(i -> bottomLeft.add(i, -i)).collect(Collectors.toList());
 		
-		
+		System.out.println("COL "+column+"  ROW  " + row);
 		return checkWin(vertical) || checkWin(horizontal) || checkWin(diagonalT) || checkWin(diagonalB);
 		
 	}
 	
-	private static boolean checkWin(List<Point2D> points) {
+	public static boolean checkWin(List<Point2D> points) {
 		int combo = 0;
 		
 		for(Point2D p : points) {

@@ -19,7 +19,7 @@ class Disc extends Circle{
 	private final boolean colour1;
 	private static Disc[][] grid = new Disc[GameDesign.getColumns()][GameDesign.getRows()];
 	private static Pane discRoot = new Pane();
-	
+	private static Music discmusic = new Music("/audio/discDrop.wav");
 	boolean isColour1() {
 		return colour1;
 	}
@@ -80,9 +80,9 @@ class Disc extends Circle{
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping
-		TranslateTransition drop = new TranslateTransition(Duration.seconds(0.0001), disc);
+		TranslateTransition drop = new TranslateTransition(Duration.seconds(0.5), disc);
 		drop.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
-		
+		discmusic.playonce();
 		// Ensures that while the animation of dropping a disc is occurring that the player can't drop multiple discs
 		GameMain.getMainroot().setDisable(true);
 		

@@ -15,7 +15,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class MainMenu {
-	
+	private static Music gameplay = new Music("/audio/gameplayMusic.wav");
 	static GridPane preference() {
 		
 		GridPane gridPane = new GridPane();
@@ -86,7 +86,7 @@ public class MainMenu {
 		gridPane.add(rowSpinner, 3, 24);
 		gridPane.add(startBtn, 2, 25);
 		
-		
+		gameplay.loop();
 		return gridPane;
 	}
 		

@@ -3,13 +3,23 @@ package application;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javafx.geometry.Point2D;
+import javafx.scene.effect.Effect;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+
+@SuppressWarnings("static-access")
 class GameDesignUnitTest {
 
 	GameDesign gd;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		gd = new GameDesign();
@@ -19,13 +29,15 @@ class GameDesignUnitTest {
 	void testCreatePlayer() {
 		
 		ArrayList<Player> players = gd.getPlayers();
-		gd.createPlayer("TEST", "RED");
+		gd.createPlayer("TEST", " ");
 		gd.createPlayer("the name", "RED");
 		gd.createPlayer(" ", "RED");
 		gd.createPlayer("12345678910", "RED");
 		
 		assertEquals("TEST", gd.getPlayers().get(0).getName());
-		assertEquals("RED", gd.getPlayers().get(0).getColour());
+		
+		// Empty colour, defaults to RED (web value = #ff0000)
+		assertEquals("#ff0000", gd.getPlayers().get(0).getColour());
 		
 		// Check the removal of blank spaces
 		assertEquals("thename", gd.getPlayers().get(1).getName());
@@ -35,141 +47,100 @@ class GameDesignUnitTest {
 		
 		// Trim name longer than 8
 		assertEquals("12345678", gd.getPlayers().get(3).getName());
+		
+		
 	}
 
-//	@Test
-//	void testSetCOLUMNS() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testSetROWS() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testGetPlayers() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testIsPlayer1move() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testSetPlayer1Move() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testGetTileSize() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testGetColumns() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testGetRows() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testGetCircle() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testGameDesign() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testHandleButtonAction() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testMakeGrid() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testLighting3D() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testSelection() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testGameEnd() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testObject() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testGetClass() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testHashCode() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testEquals() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testClone() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testToString() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testNotify() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testNotifyAll() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testWaitLong() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testWaitLongInt() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testWait() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	void testFinalize() {
-//		fail("Not yet implemented");
-//	}
+
+	@Test
+	void testSetColumnsAndRows() {
+		
+		// Check the default value for Columns 
+		assertEquals(7, gd.getColumns());
+		
+		// Check the default value for Rows 
+		assertEquals(6, gd.getRows());
+		
+		// Set Columns to 9
+		gd.setCOLUMNS(9);
+		assertEquals(9, gd.getColumns());
+		
+		// Set Rows to 9
+		gd.setROWS(9);
+		assertEquals(9, gd.getRows());
+
+	}
+
+
+	@Test
+	void testPlayer1move() {
+		// Check that it is Player 1's move
+		assertTrue(gd.isPlayer1move());
+		
+		// Set player 1's move to false, meaning its player 2's turn
+		gd.setPlayer1Move(false);
+		assertFalse(gd.isPlayer1move());
+	}
+
+
+
+	@Test
+	void testMakeGrid() {
+		Shape myshape = gd.makeGrid();
+		
+		// Check if the object is != null
+		assertNotNull(myshape);
+		
+		// Check that the correct object is returned
+		assertTrue(myshape instanceof Shape);
+		
+	}
+
+	@Test
+	void testLighting3D() {
+		Effect myeffect = gd.lighting3D();
+		
+		// Check if the object is != null
+		assertNotNull(myeffect);
+				
+		// Check that the correct object is returned
+		assertTrue(myeffect instanceof Effect);
+		
+	}
+
+	@Test
+	void testSelection() {
+		List<Rectangle> mylist = gd.selection();
+		
+		// Check if the object is != null
+		assertNotNull(mylist);
+		
+		// First item from the list should be a transparent rectangle at the top left corner
+		String firstItem = "Rectangle[x=0.0, y=0.0, width=80.0, height=560.0, fill=0x00000000]";
+		assertEquals(firstItem, mylist.get(0).toString());
+		
+	}
+	
+	
+	@Test
+	void testGameEnd() {
+		int row = 5;
+		int column = 0;
+		
+		boolean gameend = gd.gameEnd(column, row);
+		// Check if the object is != null
+		assertNotNull(gameend);
+		
+		List<Point2D> vertical = IntStream.rangeClosed(row - 3, row + 3).mapToObj(r -> new Point2D(column, r)).collect(Collectors.toList());
+		boolean checkwin = gd.checkWin(vertical);
+		// Check if the object is != null
+		assertNotNull(checkwin);
+		
+		// Game was never started for it to end... 
+		assertFalse(gameend);
+		assertFalse(checkwin);
+
+	}
+
 
 }
