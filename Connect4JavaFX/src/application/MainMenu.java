@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -16,6 +18,17 @@ import javafx.scene.text.Text;
 
 public class MainMenu {
 	private static Music gameplay = new Music("/audio/gameplayMusic.wav");
+	private static Image on = new Image("/audio/audio_icon_ON.png");
+	private static Image off = new Image("/audio/audio_icon_OFF.png");
+	private static ImageView vimg1 = new ImageView(on);
+	private static ImageView vimg2 = new ImageView(off);
+	
+	private static boolean music = true;
+	private static Button toggleMusic = new Button("Toggle Music");
+	
+	
+	MainMenu(){}
+	
 	static GridPane preference() {
 		
 		GridPane gridPane = new GridPane();
@@ -57,6 +70,16 @@ public class MainMenu {
 			
 			GameDesign.handleButtonAction(e);});
 		
+		MainMenu mm = new MainMenu();
+		vimg1.setFitHeight(30);
+		vimg1.setPreserveRatio(true);
+		vimg2.setFitHeight(30);
+		vimg2.setPreserveRatio(true);
+		
+
+		toggleMusic.setGraphic(vimg1);
+		toggleMusic.setOnAction(e -> mm.musicToggle());
+		
 		
 		welcomelbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
 		welcomelbl.setTextFill(Color.AQUA);
@@ -85,10 +108,22 @@ public class MainMenu {
 		gridPane.add(columnSpinner, 2, 24);
 		gridPane.add(rowSpinner, 3, 24);
 		gridPane.add(startBtn, 2, 25);
+		gridPane.add(toggleMusic,3, 25);
 		
 		gameplay.loop();
 		return gridPane;
 	}
 		
+	public void musicToggle() {
+        if(music){
+        	toggleMusic.setGraphic(vimg2);
+            music = false;
+            gameplay.stop();
+        } else {
+        	toggleMusic.setGraphic(vimg1);
+            music = true;
+            gameplay.loop();
+        }
+    }
 
 }

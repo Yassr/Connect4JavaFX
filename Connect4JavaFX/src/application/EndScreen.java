@@ -56,14 +56,13 @@ public class EndScreen {
 		TextArea leaderArea = new TextArea();
 		
 		
-		Label titlelbl = new Label("Congratulations: "+winnerName);
-		titlelbl.setTextFill(Color.web(winnerColour));
+		Text winnerTxt = new Text("Congratulations: "+winnerName);
+		winnerTxt.setFill(Color.web(winnerColour));
 		
-		
-        titlelbl.setEffect(GameDesign.lighting3D());
+		winnerTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
+        winnerTxt.setEffect(GameDesign.lighting3D());
        
 		
-		// Creating Text input
 		Text loserTxt = new Text("Better Luck Next time " + loserName);
 		loserTxt.setFill(Color.web(loserColour));
 		
@@ -99,7 +98,7 @@ public class EndScreen {
 		});
 		
 		
-		titlelbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 20));
+		
 		
 		
 		/*
@@ -159,7 +158,7 @@ public class EndScreen {
 		gridPane.setHgap(10);
 		
 		
-		gridPane.add(titlelbl, 2, 0);
+		gridPane.add(winnerTxt, 2, 0);
 		gridPane.add(loserTxt, 2, 2);
 		wbox.getChildren().addAll(winlbl,loselbl);
 		gridPane.add(wbox, 2, 8);

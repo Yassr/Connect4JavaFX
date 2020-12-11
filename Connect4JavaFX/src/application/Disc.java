@@ -80,7 +80,7 @@ class Disc extends Circle{
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping
-		TranslateTransition drop = new TranslateTransition(Duration.seconds(0.5), disc);
+		TranslateTransition drop = new TranslateTransition(Duration.seconds(0.001), disc);
 		drop.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		discmusic.playonce();
 		// Ensures that while the animation of dropping a disc is occurring that the player can't drop multiple discs
