@@ -4,8 +4,10 @@ import javafx.application.Application;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 
@@ -53,8 +55,19 @@ public class GameMain extends Application{
 		
 		Shape gridShape = GameDesign.makeGrid();
 		
+//		Label player1 = new Label("Player1");
+////		Label player2 = new Label("Player2");
+//		
+//		HBox hbox = new HBox(70);
+//		
+//		hbox.getChildren().add(player1);
+//		
+		
+		
 		mainroot.getChildren().add(gridShape);
+		mainroot.getChildren().add(Disc.getnamechng());
 		mainroot.getChildren().addAll(GameDesign.selection());
+		
 		
 		return mainroot;
 	}

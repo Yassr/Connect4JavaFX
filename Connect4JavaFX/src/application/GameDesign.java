@@ -7,15 +7,21 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 
 
@@ -139,7 +145,7 @@ public class GameDesign {
 
 
 	static Shape makeGrid() {
-		Shape board = new Rectangle((COLUMNS+1) * TILE_SIZE, (ROWS+1) * TILE_SIZE);
+		Shape board = new Rectangle((COLUMNS+1) * TILE_SIZE, (ROWS+1) * TILE_SIZE+30);
 		
 	
 		for(int y = 0; y < ROWS; y++) {
@@ -161,6 +167,42 @@ public class GameDesign {
 		
 		return board;
 	}
+	
+	public static Label whichPlayer(boolean move) {
+		
+		String player1Name = (GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName());
+		String player1Colour = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
+		
+		String player2Name = (!GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName());
+		String player2Colour = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
+		
+		
+		Label playerlbl = new Label();
+		
+		
+		if(move) {
+			playerlbl.setText(player1Name);
+			playerlbl.setTextFill(Color.web(player1Colour));
+			
+		}else{
+			playerlbl.setText(player2Name);
+			playerlbl.setTextFill(Color.web(player2Colour));
+			
+		}
+		
+		playerlbl.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+		playerlbl.setEffect(GameDesign.lighting3D());
+		
+		HBox hbox = new HBox(70);
+		hbox.setPadding(new Insets(10, 10, 10 ,10));
+		playerlbl.setTranslateY((ROWS+0.75) * TILE_SIZE);
+		playerlbl.setTranslateX(3.25*TILE_SIZE);
+		hbox.getChildren().add(playerlbl);
+	
+		
+		return playerlbl;
+	}
+	
 	
 	public static Effect lighting3D() {
 		// Example lighting from found in Light superclass
