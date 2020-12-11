@@ -33,7 +33,8 @@ public class MainMenu {
 		
 		GridPane gridPane = new GridPane();
 		
-		Button startBtn = new Button("Start Game");
+		Button startBtn = new Button();
+		Label starLabel = new Label("Start Game");
 		Label welcomelbl = new Label("Connect 4 FXgame");
 		Label titlelbl = new Label("Player preferences");
 		Label columnlbl = new Label("Columns");
@@ -91,10 +92,12 @@ public class MainMenu {
 		
 		startBtn.setPrefSize(GameDesign.getTileSize()*3,GameDesign.getTileSize());
 		
-
-		startBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-		startBtn.setOnMouseEntered(e -> startBtn.setTextFill(Color.web(colorPicker1.getValue().toString())));
-		startBtn.setOnMouseExited(e -> startBtn.setTextFill(Color.web(colorPicker2.getValue().toString())));
+		starLabel.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+		starLabel.setEffect(GameDesign.lighting3D());
+		startBtn.setGraphic(starLabel);
+		
+		startBtn.setOnMouseEntered(e -> starLabel.setTextFill(Color.web(colorPicker1.getValue().toString())));
+		startBtn.setOnMouseExited(e -> starLabel.setTextFill(Color.web(colorPicker2.getValue().toString())));
 		
 		gridPane.setPadding(new Insets(10, 10, 10 ,10));
 		gridPane.setVgap(8);
@@ -132,6 +135,7 @@ public class MainMenu {
         }
     }
 	
+	// Was meant to be used for the colour borders, didn't use so far...
 	private static String toHexString(Color color) {
 		  int r = ((int) Math.round(color.getRed()     * 255)) << 24;
 		  int g = ((int) Math.round(color.getGreen()   * 255)) << 16;
