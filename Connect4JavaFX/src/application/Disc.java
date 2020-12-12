@@ -7,6 +7,9 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -27,20 +30,7 @@ class Disc extends Circle{
 	private static Pane discRoot = new Pane();
 	private static Music discmusic = new Music("/audio/discDrop.wav");
 	private static Pane namechng = new Pane();
-	private static Label playerlbl = new Label();
-	private static boolean turn = true;
-	
-	
-	
-	public static Label getPlayerlbl() {
-		return playerlbl;
-	}
-
-
-
-	public static void setPlayerlbl(Label playerlbl) {
-		Disc.playerlbl = playerlbl;
-	}
+	private boolean turn = true;
 
 
 
@@ -60,6 +50,7 @@ class Disc extends Circle{
 
 //	GameDesign.getPlayers().get(0).getColour()
 
+	
 	Disc(boolean colour1) {
 		super(GameDesign.getCircle(), colour1 ? Color.web(GameDesign.getPlayers().get(0).getColour()) : Color.web(GameDesign.getPlayers().get(1).getColour()));
 		this.colour1 = colour1;
@@ -117,6 +108,8 @@ class Disc extends Circle{
 		
 		boolean player =true;
 		final int cRow = row; // Current row
+		
+		Disc ds = new Disc(player);
 		drop.setOnFinished(e -> {
 			if(GameDesign.gameEnd(column, cRow)) {
 				EndScreen.gameOver();
@@ -124,7 +117,7 @@ class Disc extends Circle{
 			
 			// Switch players once the animation is over and the disc is placed
 			GameDesign.setPlayer1Move(!GameDesign.isPlayer1move());
-			turn = !turn;
+			ds.turn = !(ds.turn);
 			
 			
 			// Un-disables the pane to let the next player to take their turn. 
@@ -139,39 +132,45 @@ class Disc extends Circle{
 			String player2Name = (!GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName());
 			String player2Colour = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
 			
-			
-			
-			if(turn) {
-				playerlbl.setText("Turn :\t  "+ player2Name);
-				playerlbl.setTextFill(Color.web(player2Colour));
-				System.out.println(playerlbl);
-				turn = false;
-				
-			}else if(!turn){
-				playerlbl.setText("Turn :\t  "+ player1Name);
-				playerlbl.setTextFill(Color.web(player1Colour));
-				System.out.println(playerlbl);
-				turn = true;
-				
-			}
-			
+			Label plbl = new Label("");
 			GameDesign gd = new GameDesign();
 			
-			playerlbl.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
-			playerlbl.setEffect(GameDesign.lighting3D());
+			if(ds.turn) {
+				plbl.setText("Turn :\t  "+ player2Name);
+				plbl.setTextFill(Color.web(player2Colour));
+				
+				ds.turn = false;
+				
+			}else if(!ds.turn){
+
+				plbl.setText("Turn :\t  "+ player1Name);
+				plbl.setTextFill(Color.web(player1Colour));
+				
+				ds.turn = true;
+				
+			}
+
+			HBox hbox = new HBox();
+			hbox.setPadding(new Insets(5, 5, 5 ,5));
 			
-			HBox hbox = new HBox(70);
-			hbox.setPadding(new Insets(10, 10, 10 ,10));
-			playerlbl.setTranslateY((gd.getRows()+0.75) * gd.getTileSize());
-			playerlbl.setTranslateX(2.5*gd.getTileSize());
+			plbl.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
+			plbl.setEffect(GameDesign.lighting3D());
+			
+			hbox.setBackground(new Background(new BackgroundFill(Color.rgb(0, 132, 132),CornerRadii.EMPTY,Insets.EMPTY)));
+			hbox.setTranslateY((gd.getRows()+0.9) * gd.getTileSize());
+			hbox.setTranslateX(2.5*gd.getTileSize());
+//			hbox.setEffect(GameDesign.lighting3D());
+			
+			
+			
+			
+			
+			hbox.getChildren().add(plbl);
 			
 
-			HBox chngbox = new HBox();
+			System.out.println(plbl);
 			
-			
-			
-			chngbox.getChildren().add(playerlbl);
-			namechng.getChildren().add(chngbox);
+			namechng.getChildren().add(hbox);
 			
 			
 			// --------------------------------------------------------

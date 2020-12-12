@@ -145,7 +145,7 @@ public class GameDesign {
 
 
 	static Shape makeGrid() {
-		Shape board = new Rectangle((COLUMNS+1) * TILE_SIZE, (ROWS+1) * TILE_SIZE+30);
+		Shape board = new Rectangle((COLUMNS+1) * TILE_SIZE, (ROWS+1) * TILE_SIZE+50);
 		
 	
 		for(int y = 0; y < ROWS; y++) {
@@ -168,7 +168,7 @@ public class GameDesign {
 		return board;
 	}
 	
-	public static Label whichPlayer(boolean move) {
+	public static void whichPlayer(boolean move) {
 		
 		String player1Name = (GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName());
 		String player1Colour = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
@@ -199,8 +199,7 @@ public class GameDesign {
 		playerlbl.setTranslateX(3.25*TILE_SIZE);
 		hbox.getChildren().add(playerlbl);
 	
-		
-		return playerlbl;
+
 	}
 	
 	

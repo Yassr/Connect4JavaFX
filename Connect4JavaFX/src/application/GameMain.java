@@ -66,6 +66,7 @@ public class GameMain extends Application{
 		
 		mainroot.getChildren().add(gridShape);
 		mainroot.getChildren().add(Disc.getnamechng());
+		
 		mainroot.getChildren().addAll(GameDesign.selection());
 		
 		

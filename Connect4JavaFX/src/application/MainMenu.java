@@ -119,7 +119,7 @@ public class MainMenu {
 		gridPane.add(startBtn, 2, 25);
 		gridPane.add(toggleMusic,3, 25);
 		
-		gameplay.loop();
+//		gameplay.loop();
 		return gridPane;
 	}
 		
