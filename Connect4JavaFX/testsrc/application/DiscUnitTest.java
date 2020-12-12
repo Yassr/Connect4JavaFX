@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javafx.scene.shape.Shape;
+
 @SuppressWarnings("static-access")
 class DiscUnitTest {
 
@@ -19,18 +21,11 @@ class DiscUnitTest {
 	
 	
 	
-
 	@Test
-	void testIsColour1() {
+	void testGetDiscRoot() {
 		
 		
-		assertNull(disc.isColour1());
 	}
-
-//	@Test
-//	void testGetDiscRoot() {
-//		fail("Not yet implemented"); // TODO
-//	}
 //
 //	@Test
 //	void testGetnamechng() {

@@ -131,7 +131,6 @@ public class EndScreen {
 		
 		leaderArea.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 18));
 		leaderArea.setEditable(false);
-//		leaderArea.setStyle("-fx-text-alignment: center;");
 		
 		StackPane leaderPane = new StackPane(leaderArea);
 		leaderPane.setMinSize(280, 250);

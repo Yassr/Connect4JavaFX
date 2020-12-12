@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import javafx.animation.TranslateTransition;
@@ -33,6 +34,13 @@ class Disc extends Circle{
 	private static Music discmusic = new Music("/audio/discDrop.wav");
 	private static Pane namechng = new Pane();
 	private boolean turn = true;
+	private static ArrayList<String> movescounter = new ArrayList<>();
+	
+	
+	
+	public static ArrayList<String> getMovescounter() {
+		return movescounter;
+	}
 
 
 
@@ -83,18 +91,22 @@ class Disc extends Circle{
 			return;
 		}
 		
+		if(row < 0) {
+//			Alert winAlert = new Alert(AlertType.INFORMATION);
+//	        winAlert.setTitle("Game Over!");
+//	        winAlert.setHeaderText(null);
+//	        winAlert.setContentText("DRAW");
+//	        winAlert.show();
+			return;
+		}
+		
 		
 		
 		grid[column][row] = disc;
 		
-		if(row < 0 || column < 0) {
-			Alert winAlert = new Alert(AlertType.INFORMATION);
-	        winAlert.setTitle("Game Over!");
-	        winAlert.setHeaderText(null);
-	        winAlert.setContentText("DRAW");
-	        winAlert.show();
-			return;
-		}
+		GameDesign gd = new GameDesign();
+		
+		
 		
 		discRoot.getChildren().add(disc);
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
@@ -125,6 +137,18 @@ class Disc extends Circle{
 			GameMain.getMainroot().setDisable(false);
 			
 			
+			movescounter.add("COL "+column+"  ROW  " + cRow);
+			System.out.println(movescounter.size());
+			
+			if(movescounter.size() == (gd.getRows()*gd.getColumns())) {
+				Alert winAlert = new Alert(AlertType.INFORMATION);
+		        winAlert.setTitle("Game Over!");
+		        winAlert.setHeaderText(null);
+		        winAlert.setContentText("DRAW");
+		        winAlert.show();
+				return;
+			}
+			
 			// --------------------Player Name change------------------------------------
 			
 			String player1Name = (GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName());
@@ -134,7 +158,7 @@ class Disc extends Circle{
 			String player2Colour = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
 			
 			Label plbl = new Label("");
-			GameDesign gd = new GameDesign();
+
 			
 			if(ds.turn) {
 				plbl.setText("Turn :\t  "+ player2Name);
@@ -174,9 +198,6 @@ class Disc extends Circle{
 					
 			
 			hbox.getChildren().add(plbl);
-			
-
-			System.out.println(plbl);
 			
 			namechng.getChildren().add(hbox);
 			

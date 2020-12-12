@@ -42,8 +42,9 @@ public class GameDesign {
 	private static boolean player1Move= true;
 	private boolean music = true;
 	
-	
-	
+
+
+
 	public static void createPlayer(String name, String colour) {
 		
 		players.add(new Player(name, colour));
@@ -262,7 +263,10 @@ public class GameDesign {
 		Point2D bottomLeft = new Point2D(column - 3, row + 3);
 		List<Point2D> diagonalB = IntStream.rangeClosed(0, 6).mapToObj(i -> bottomLeft.add(i, -i)).collect(Collectors.toList());
 		
-		System.out.println("COL "+column+"  ROW  " + row);
+		
+//		movescounter.add("COL "+column+"  ROW  " + row);
+//		System.out.println(movescounter.size());
+		
 		return checkWin(vertical) || checkWin(horizontal) || checkWin(diagonalT) || checkWin(diagonalB);
 		
 	}
