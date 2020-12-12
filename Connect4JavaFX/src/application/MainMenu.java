@@ -59,9 +59,9 @@ public class MainMenu {
 		
 		
 		TextField nameInput1 = new TextField();
-		nameInput1.setPromptText("Choose a name (max 6 chars)");
+		nameInput1.setPromptText("Choose a name (max 8 chars)");
 		TextField nameInput2 = new TextField();
-		nameInput2.setPromptText("Choose a name (max 6 chars)");
+		nameInput2.setPromptText("Choose a name (max 8 chars)");
 		
 		startBtn.setOnAction(e -> {
 			GameDesign.setCOLUMNS(columnSpinner.getValue());
