@@ -52,9 +52,9 @@ public class Leaderboard {
 				if(input[0].isEmpty() || input[1].isEmpty()) {
 					continue;
 				}
-				if(input[0].length() <= 6 ) {
+				if(input[0].length() < 6 ) {
 					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t\t"+ input[1]);
-				}else if(input[0].length() > 6){
+				}else if(input[0].length() >= 6){
 					input[0].substring(0, 5);
 					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t"+ input[1]);
 				}

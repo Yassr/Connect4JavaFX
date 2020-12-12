@@ -26,6 +26,11 @@ public class MainMenu {
 	private static boolean music = true;
 	private static Button toggleMusic = new Button("Toggle Music");
 	
+	/*
+	 * TODO Turn music back on :-)
+	 */
+	
+	
 	
 	MainMenu(){}
 	
