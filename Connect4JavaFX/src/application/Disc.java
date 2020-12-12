@@ -6,6 +6,8 @@ import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -151,19 +153,26 @@ class Disc extends Circle{
 			}
 
 			HBox hbox = new HBox();
+			hbox.setMinWidth((gd.getColumns()-2) * gd.getTileSize());
 			hbox.setPadding(new Insets(5, 5, 5 ,5));
 			
 			plbl.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
-			plbl.setEffect(GameDesign.lighting3D());
+				
+			// lighting
+			Light.Distant light = new Light.Distant();
+	        light.setAzimuth(60.0);
+	        light.setElevation(80.0);
+
+	        Lighting colourDepth = new Lighting();
+	        colourDepth.setLight(light);
+	        colourDepth.setSurfaceScale(5.0);
+			
+	        plbl.setEffect(colourDepth);
 			
 			hbox.setBackground(new Background(new BackgroundFill(Color.rgb(0, 132, 132),CornerRadii.EMPTY,Insets.EMPTY)));
 			hbox.setTranslateY((gd.getRows()+0.9) * gd.getTileSize());
 			hbox.setTranslateX(2.5*gd.getTileSize());
-//			hbox.setEffect(GameDesign.lighting3D());
-			
-			
-			
-			
+					
 			
 			hbox.getChildren().add(plbl);
 			
