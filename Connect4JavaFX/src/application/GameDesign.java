@@ -169,39 +169,7 @@ public class GameDesign {
 		return board;
 	}
 	
-	public static void whichPlayer(boolean move) {
-		
-		String player1Name = (GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName());
-		String player1Colour = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
-		
-		String player2Name = (!GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName());
-		String player2Colour = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
-		
-		
-		Label playerlbl = new Label();
-		
-		
-		if(move) {
-			playerlbl.setText(player1Name);
-			playerlbl.setTextFill(Color.web(player1Colour));
-			
-		}else{
-			playerlbl.setText(player2Name);
-			playerlbl.setTextFill(Color.web(player2Colour));
-			
-		}
-		
-		playerlbl.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-		playerlbl.setEffect(GameDesign.lighting3D());
-		
-		HBox hbox = new HBox(70);
-		hbox.setPadding(new Insets(10, 10, 10 ,10));
-		playerlbl.setTranslateY((ROWS+0.75) * TILE_SIZE);
-		playerlbl.setTranslateX(3.25*TILE_SIZE);
-		hbox.getChildren().add(playerlbl);
-	
 
-	}
 	
 	
 	public static Effect lighting3D() {

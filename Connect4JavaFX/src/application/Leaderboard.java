@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Leaderboard {
 	private static ArrayList<String> leaderboard = new ArrayList<String>();
-	
+	static Disc dc = new Disc(false);
 	
 	public static ArrayList<String> getLeaderboard() {
 		return leaderboard;
@@ -49,14 +49,19 @@ public class Leaderboard {
 				String cleaner = in.nextLine().replaceAll("(?m)^\\s+$", "");
 				System.out.println(cleaner);
 				String[] input = cleaner.split(" ");
-				if(input[0].isEmpty() || input[1].isEmpty()) {
-					continue;
-				}
-				if(input[0].length() < 6 ) {
-					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t\t"+ input[1]);
-				}else if(input[0].length() >= 6){
-					input[0].substring(0, 5);
-					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t"+ input[1]);
+				
+				if(!dc.isDraw()) {
+					Leaderboard.getLeaderboard().add("\t\tDRAW");
+				}else {
+					if(input[0].isEmpty() || input[1].isEmpty()) {
+						continue;
+					}
+					if(input[0].length() < 6 ) {
+						Leaderboard.getLeaderboard().add(input[0]+"\t\t\t\t"+ input[1]);
+					}else if(input[0].length() >= 6){
+						input[0].substring(0, 5);
+						Leaderboard.getLeaderboard().add(input[0]+"\t\t\t"+ input[1]);
+					}
 				}
 				
 			}

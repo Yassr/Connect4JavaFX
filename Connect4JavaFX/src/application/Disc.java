@@ -35,9 +35,22 @@ class Disc extends Circle{
 	private static Pane namechng = new Pane();
 	private boolean turn = true;
 	private static ArrayList<String> movescounter = new ArrayList<>();
+	private static boolean isDraw = true;
 	
 	
 	
+	public static boolean isDraw() {
+		return isDraw;
+	}
+
+
+
+	public static void setDraw(boolean isDraw) {
+		Disc.isDraw = isDraw;
+	}
+
+
+
 	public static ArrayList<String> getMovescounter() {
 		return movescounter;
 	}
@@ -90,17 +103,7 @@ class Disc extends Circle{
 //	        winAlert.show();
 			return;
 		}
-		
-		if(row < 0) {
-//			Alert winAlert = new Alert(AlertType.INFORMATION);
-//	        winAlert.setTitle("Game Over!");
-//	        winAlert.setHeaderText(null);
-//	        winAlert.setContentText("DRAW");
-//	        winAlert.show();
-			return;
-		}
-		
-		
+
 		
 		grid[column][row] = disc;
 		
@@ -146,6 +149,8 @@ class Disc extends Circle{
 		        winAlert.setHeaderText(null);
 		        winAlert.setContentText("DRAW");
 		        winAlert.show();
+		        ds.setDraw(true);
+		        EndScreen.gameOver();
 				return;
 			}
 			

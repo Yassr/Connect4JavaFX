@@ -172,7 +172,6 @@ public class EndScreen {
 	
 	
 	
-	
 	protected static void gameOver() {
 		Leaderboard.writeLeaderBoard();
 //		Leaderboard.getLeaderboard().add(winner+" "+"Winner"+" "+ loser + " " + "Loser");
@@ -183,11 +182,6 @@ public class EndScreen {
 		// Checks if player 1 Won or Player 2
 		System.out.println("Winner: " + (GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName()));
         
-//		Alert winAlert = new Alert(AlertType.INFORMATION);
-//        winAlert.setTitle("Game Over!");
-//        winAlert.setHeaderText(null);
-//        winAlert.setContentText("Winner: " + (GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName()));
-//        winAlert.show();
         
         
 	}
