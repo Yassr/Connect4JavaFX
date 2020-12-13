@@ -35,7 +35,7 @@ class Disc extends Circle{
 	private static Pane namechng = new Pane();
 	private boolean turn = true;
 	private static ArrayList<String> movescounter = new ArrayList<>();
-	private static boolean isDraw = true;
+	private static boolean isDraw = false;
 	
 	
 	
@@ -142,6 +142,7 @@ class Disc extends Circle{
 			
 			movescounter.add("COL "+column+"  ROW  " + cRow);
 			System.out.println(movescounter.size());
+			System.out.println(ds.isDraw());
 			
 			if(movescounter.size() == (gd.getRows()*gd.getColumns())) {
 				Alert winAlert = new Alert(AlertType.INFORMATION);
@@ -150,6 +151,7 @@ class Disc extends Circle{
 		        winAlert.setContentText("DRAW");
 		        winAlert.show();
 		        ds.setDraw(true);
+		        System.out.println(ds.isDraw());
 		        EndScreen.gameOver();
 				return;
 			}

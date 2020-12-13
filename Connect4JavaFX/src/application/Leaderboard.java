@@ -50,7 +50,7 @@ public class Leaderboard {
 				System.out.println(cleaner);
 				String[] input = cleaner.split(" ");
 				
-				if(!dc.isDraw()) {
+				if(dc.isDraw()) {
 					Leaderboard.getLeaderboard().add("\t\tDRAW");
 				}else {
 					if(input[0].isEmpty() || input[1].isEmpty()) {
