@@ -204,7 +204,9 @@ public class GameDesign {
 			selector.setOnMouseExited(e -> selector.setFill(Color.TRANSPARENT));
 			
 			final int column = x;
-			selector.setOnMouseClicked(e -> Disc.dropDisc(new Disc(player1Move), column));
+			Disc dc = new Disc();
+			
+			selector.setOnMouseClicked(e -> dc.dropDisc(new Disc(player1Move), column));
 			
 			
 			list.add(selector);

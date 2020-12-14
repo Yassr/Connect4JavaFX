@@ -28,7 +28,7 @@ import javafx.util.Duration;
 
 class Disc extends Circle{
 	
-	private final boolean colour1;
+	private boolean colour1;
 	private static Disc[][] grid = new Disc[GameDesign.getColumns()][GameDesign.getRows()];
 	private static Pane discRoot = new Pane();
 	private static Music discmusic = new Music("/audio/discDrop.wav");
@@ -71,7 +71,9 @@ class Disc extends Circle{
 		return namechng;
 	}
 
-
+	Disc(){
+		
+	}
 	
 	Disc(boolean colour1) {
 		super(GameDesign.getCircle(), colour1 ? Color.web(GameDesign.getPlayers().get(0).getColour()) : Color.web(GameDesign.getPlayers().get(1).getColour()));
@@ -115,7 +117,7 @@ class Disc extends Circle{
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping
-		TranslateTransition drop = new TranslateTransition(Duration.seconds(0.0001), disc);
+		TranslateTransition drop = new TranslateTransition(Duration.seconds(0.5), disc);
 		drop.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		discmusic.playonce();
 		

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 class GameMainUnitTest{
@@ -19,9 +21,8 @@ class GameMainUnitTest{
 	@Test
 	void testStartGame() {
 		
-//		assertNotNull();
-//		assertThat(gc.startGame());
-		fail("Not yet implemented");
+//		assertNotNull(gc.startGame());
+//		assertTrue(gc.startGame() instanceof Pane);
 	}
 
 	

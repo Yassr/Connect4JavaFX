@@ -2,40 +2,41 @@ package application;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 
 @SuppressWarnings("static-access")
 class DiscUnitTest {
 
-	
 	Disc disc;
-	boolean colour1 = true;
+	GameDesign gd;
+	boolean colour;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		disc = new Disc(colour1);
+		gd = new GameDesign();
 	}
 	
 	
 	
 	@Test
-	void testGetDiscRoot() {
+	void testDisc() {
 		
+		ArrayList<Player> players = gd.getPlayers();
+		gd.createPlayer("player1", "BLUE");
+		gd.createPlayer("player2", "Red");
 		
+		disc = new Disc(colour);
+		assertTrue(disc instanceof Disc);
 	}
-//
-//	@Test
-//	void testGetnamechng() {
-//		fail("Not yet implemented"); // TODO
-//	}
-//
-//	@Test
-//	void testDisc() {
-//		fail("Not yet implemented"); // TODO
-//	}
 //
 //	@Test
 //	void testDropDisc() {
