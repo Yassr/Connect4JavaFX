@@ -173,6 +173,7 @@ public class EndScreen {
 	
 	
 	protected static void gameOver() {
+		
 		Leaderboard.writeLeaderBoard();
 //		Leaderboard.getLeaderboard().add(winner+" "+"Winner"+" "+ loser + " " + "Loser");
 		Scene endscene = new Scene(endPane(), 450, 500);

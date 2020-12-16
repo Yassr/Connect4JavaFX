@@ -1,5 +1,7 @@
 package application;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -15,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class MainMenu {
 	private static Music gameplay = new Music("/audio/gameplayMusic.wav");
@@ -30,11 +33,12 @@ public class MainMenu {
 	 * TODO Turn music back on :-)
 	 */
 	
+	public MainMenu() {
+	
+	}
 	
 	
-	MainMenu(){}
-	
-	static GridPane preference() {
+	public static GridPane preference() {
 		
 		GridPane gridPane = new GridPane();
 		
@@ -90,7 +94,15 @@ public class MainMenu {
 		
 		
 		welcomelbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
-		welcomelbl.setTextFill(Color.AQUA);
+//		welcomelbl.setTextFill(Color.AQUA);
+		Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0.5), e -> welcomelbl.setTextFill(Color.web(colorPicker1.getValue().toString()))),
+                new KeyFrame(Duration.seconds(1.0), e -> welcomelbl.setTextFill(Color.web(colorPicker2.getValue().toString())))
+        );
+
+        timeline.setCycleCount(100);
+		
+		
 		
 		welcomelbl.setEffect(GameDesign.lighting3D());
 		titlelbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 16));
@@ -123,11 +135,13 @@ public class MainMenu {
 		gridPane.add(rowSpinner, 3, 24);
 		gridPane.add(startBtn, 2, 25);
 		gridPane.add(toggleMusic,3, 25);
-		
+		timeline.play();
 //		gameplay.loop();
 		return gridPane;
 	}
 		
+	
+
 	public void musicToggle() {
         if(music){
         	toggleMusic.setGraphic(vimg2);

@@ -1,4 +1,4 @@
-package application;
+package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import application.GameDesign;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.Effect;
 import javafx.scene.shape.Rectangle;
@@ -28,7 +29,7 @@ class GameDesignUnitTest {
 	@Test
 	void testCreatePlayer() {
 		
-		ArrayList<Player> players = gd.getPlayers();
+
 		gd.createPlayer("TEST", " ");
 		gd.createPlayer("the name", "RED");
 		gd.createPlayer(" ", "RED");

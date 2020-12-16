@@ -1,10 +1,11 @@
-package application;
+package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import application.GameMain;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;

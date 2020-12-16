@@ -41,7 +41,20 @@ public class GameDesign {
 	private static ArrayList<Player> players = new ArrayList<Player>();
 	private static boolean player1Move= true;
 	private boolean music = true;
+	private Rectangle selector = new Rectangle(TILE_SIZE, (ROWS+1) * TILE_SIZE);
 	
+
+
+
+	public Rectangle getSelector() {
+		return selector;
+	}
+
+
+
+	public void setSelector(Rectangle selector) {
+		this.selector = selector;
+	}
 
 
 
@@ -145,7 +158,7 @@ public class GameDesign {
 	
 
 
-	static Shape makeGrid() {
+	public static Shape makeGrid() {
 		Shape board = new Rectangle((COLUMNS+1) * TILE_SIZE, (ROWS+1) * TILE_SIZE+50);
 		
 	
@@ -186,7 +199,7 @@ public class GameDesign {
 	}
 	
 	
-	static List<Rectangle> selection(){
+	public static List<Rectangle> selection(){
 		// Create a list of type Rectangle
 		List<Rectangle> list = new ArrayList<>();
 		
@@ -196,27 +209,27 @@ public class GameDesign {
 		 * we can create a selector so players know where they are on the board.
 		 */
 		for(int x = 0; x < COLUMNS; x++) {
-			Rectangle selector = new Rectangle(TILE_SIZE, (ROWS+1) * TILE_SIZE);
-			selector.setTranslateX(x * (TILE_SIZE + 5) + TILE_SIZE / 4);
+			GameDesign gd = new GameDesign();
+			gd.getSelector().setTranslateX(x * (TILE_SIZE + 5) + TILE_SIZE / 4);
 			
-			selector.setFill(Color.TRANSPARENT);
-			selector.setOnMouseEntered(e -> selector.setFill(Color.rgb(209, 209, 209, 0.3)));
-			selector.setOnMouseExited(e -> selector.setFill(Color.TRANSPARENT));
+			gd.getSelector().setFill(Color.TRANSPARENT);
+			gd.getSelector().setOnMouseEntered(e -> gd.getSelector().setFill(Color.rgb(209, 209, 209, 0.3)));
+			gd.getSelector().setOnMouseExited(e -> gd.getSelector().setFill(Color.TRANSPARENT));
 			
 			final int column = x;
-			Disc dc = new Disc();
 			
-			selector.setOnMouseClicked(e -> dc.dropDisc(new Disc(player1Move), column));
+			gd.getSelector().setOnMouseClicked(e -> Disc.dropDisc(new Disc(player1Move), column));
 			
 			
-			list.add(selector);
+			list.add(gd.getSelector());
 		}
 		
 		
 		return list;
 	}
 	
-	protected static boolean gameEnd(int column, int row) {
+	
+	public static boolean gameEnd(int column, int row) {
 		// directions that result in a win
 		
 		/* Since we can win with a combination of 4, we need to check 3 off our point in each direction of our disc.
