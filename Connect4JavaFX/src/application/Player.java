@@ -9,14 +9,10 @@ public class Player {
 		this.colour = colour;
 	}
 	
-	public Player(String score) {
-		this.score = score;
-	}
-	
+
 	
 	private String name = "";
 	private String colour = "";
-	private String score = "";
 	
 	
 	public String getName() {
@@ -31,12 +27,7 @@ public class Player {
 	public void setColour(String colour) {
 		this.colour = colour;
 	}
-	public String getScore() {
-		return score;
-	}
-	public void setScore(String score) {
-		this.score = score;
-	}
+
 	
 	 
 

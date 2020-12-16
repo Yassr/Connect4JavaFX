@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Leaderboard {
 	private static ArrayList<String> leaderboard = new ArrayList<String>();
-	static Disc dc = new Disc(false);
+	static Disc dc = new Disc();
 	
 	public static ArrayList<String> getLeaderboard() {
 		return leaderboard;
@@ -56,6 +56,7 @@ public class Leaderboard {
 					if(input[0].isEmpty() || input[1].isEmpty()) {
 						continue;
 					}
+
 					if(input[0].length() < 6 ) {
 						Leaderboard.getLeaderboard().add(input[0]+"\t\t\t\t"+ input[1]);
 					}else if(input[0].length() >= 6){

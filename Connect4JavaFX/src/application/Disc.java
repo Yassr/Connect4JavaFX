@@ -127,7 +127,7 @@ public class Disc extends Circle{
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping
-		TranslateTransition drop = new TranslateTransition(Duration.seconds(0.7), disc);
+		TranslateTransition drop = new TranslateTransition(Duration.seconds(0.001), disc);
 		drop.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		discmusic.playonce();
 		
@@ -144,7 +144,7 @@ public class Disc extends Circle{
 				GameMain.getMainroot().setDisable(true);
 				
 				Timeline timeline = new Timeline(
-		                new KeyFrame(Duration.seconds(3.0))
+		                new KeyFrame(Duration.seconds(0.0))
 		        );
 				victory.playonce();
 		        timeline.setOnFinished(eg -> {
