@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javafx.embed.swing.JFXPanel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,18 +31,18 @@ class GameDesignUnitTest {
 	void testCreatePlayer() {
 		
 
-		gd.createPlayer("TEST", " ");
-		gd.createPlayer("the name", "RED");
+		gd.createPlayer("Player1", "");
+		gd.createPlayer("Player2   ", "BLUE");
 		gd.createPlayer(" ", "RED");
 		gd.createPlayer("12345678910", "RED");
 		
-		assertEquals("TEST", gd.getPlayers().get(0).getName());
+		assertEquals("Player1", gd.getPlayers().get(0).getName());
 		
 		// Empty colour, defaults to RED (web value = #ff0000)
 		assertEquals("#ff0000", gd.getPlayers().get(0).getColour());
 		
 		// Check the removal of blank spaces
-		assertEquals("thename", gd.getPlayers().get(1).getName());
+		assertEquals("Player2", gd.getPlayers().get(1).getName());
 		
 		// Test if empty create name
 		assertEquals("Player3", gd.getPlayers().get(2).getName());
@@ -125,6 +126,7 @@ class GameDesignUnitTest {
 	
 	@Test
 	void testGameEnd() {
+		JFXPanel jfxPanel = new JFXPanel();
 		int row = 5;
 		int column = 0;
 		

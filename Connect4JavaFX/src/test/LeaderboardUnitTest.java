@@ -38,6 +38,7 @@ class LeaderboardUnitTest {
 		
 	}
 
+	// Clear the Leaderboard.txt file before running this test
 	@Test
 	void testWriteandRead() {
 		
@@ -48,9 +49,10 @@ class LeaderboardUnitTest {
 		for(String win : ldstr ) {
 			
 			String str = win.replaceAll("(?m)^\\s+$", "");
-			String[] input = str.split("\t");
+			str = win.replaceAll("\t", "");
+			String[] input = str.split("");
 			
-			assertEquals("Player1", input[0]);
+			assertEquals("Player1Player2", str);
 		}
 	}
 

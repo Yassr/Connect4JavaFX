@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import javafx.embed.swing.JFXPanel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,15 +17,18 @@ class GameMainUnitTest{
 	GameMain gc;
 	@BeforeEach
 	void setUp() throws Exception {
+		JFXPanel jfxPanel = new JFXPanel();
 		gc = new GameMain();
 	}
 	
 	@Test
 	void testStartGame() {
-		
-//		assertNotNull(gc.startGame());
-//		assertTrue(gc.startGame() instanceof Pane);
+		Pane gmsg = (Pane) gc.startGame();
+
+		assertNotNull(gmsg);
+		assertTrue(gmsg instanceof Pane);
 	}
+
 
 	
 

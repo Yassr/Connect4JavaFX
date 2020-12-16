@@ -88,6 +88,11 @@ public class Disc extends Circle{
 		
 	}
 	
+	/**
+	 * 
+	 * @param disc
+	 * @param column
+	 */
 	static void dropDisc(Disc disc, int column) {
 		Disc ds = new Disc();
 		GameDesign gd = new GameDesign();

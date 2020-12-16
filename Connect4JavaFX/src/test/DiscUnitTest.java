@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import application.GameDesign;
 import application.Disc;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -26,11 +27,12 @@ class DiscUnitTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		JFXPanel jfxPanel = new JFXPanel();
 		// Disc(boolean colour1) constructor requires that two players are created and have colours assigned.
 		gd = new GameDesign();
 		
-		gd.createPlayer("player1", "BLUE");
-		gd.createPlayer("player2", "Red");
+		gd.createPlayer("player1", "RED");
+		gd.createPlayer("player2", "BLUE");
 		
 		disc = new Disc(colour);
 		

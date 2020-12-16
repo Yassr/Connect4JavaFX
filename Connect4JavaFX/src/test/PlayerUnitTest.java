@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import application.Player;
 
-@SuppressWarnings("static-access")
 class PlayerUnitTest {
 
 	Player p1;

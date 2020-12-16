@@ -1,35 +1,31 @@
 package application;
 
 import javafx.application.Application;
-
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 
-
+/**
+ * 
+ * @author Yassr Shaar - 14328571
+ * This is the Starting Point of the application
+ * This class will create the scene and stage for the game and launch it.
+ *
+ */
 public class GameMain extends Application{
 	
 	private static Pane mainroot = new Pane();
 	private static Stage stage;
 	private static Scene scene1 = new Scene(MainMenu.preference(), 450, 500);
 	
-//	private static Scene mainscene= new Scene(startGame());
 	
 	public static Scene getScene1() {
 		return scene1;
 	}
 	
-
-//	public static Scene getMainscene() {
-//		return mainscene;
-//	}
-
-
 
 	public static Pane getMainroot() {
 		return mainroot;
@@ -40,29 +36,22 @@ public class GameMain extends Application{
 	}
 
 
-
 	@SuppressWarnings("static-access")
 	public void setStage(Stage stage) { 
 		this.stage = stage;
 	}
 
 
+	/**
+	 * startGame() calls 
+	 * @return
+	 */
+	public static Parent startGame() {
 
-	static Parent startGame() {
-
-		// Disc Root goes before game grid to give the illusion of 3D gameplay.
+		// Disc Root goes before game grid to give the illusion of a 3D board.
 		mainroot.getChildren().add(Disc.getDiscRoot());
 		
 		Shape gridShape = GameDesign.makeGrid();
-		
-//		Label player1 = new Label("Player1");
-////		Label player2 = new Label("Player2");
-//		
-//		HBox hbox = new HBox(70);
-//		
-//		hbox.getChildren().add(player1);
-//		
-		
 		
 		mainroot.getChildren().add(gridShape);
 		mainroot.getChildren().add(Disc.getnamechng());
