@@ -25,7 +25,6 @@ public class MainMenu {
 	private static Image off = new Image("/audio/audio_icon_OFF.png");
 	private static ImageView vimg1 = new ImageView(on);
 	private static ImageView vimg2 = new ImageView(off);
-	
 	private static boolean music = true;
 	private static Button toggleMusic = new Button("Toggle Music");
 	
@@ -33,11 +32,25 @@ public class MainMenu {
 	 * TODO Turn music back on :-)
 	 */
 	
+	
+	
+	
+	
 	public MainMenu() {
 	
 	}
 	
 	
+	public static boolean isMusic() {
+		return music;
+	}
+
+
+	public static Music getGameplay() {
+		return gameplay;
+	}
+
+
 	public static GridPane preference() {
 		
 		GridPane gridPane = new GridPane();
@@ -65,6 +78,13 @@ public class MainMenu {
 		// Creating Text fields for names
 		ColorPicker colorPicker1 = new ColorPicker(Color.RED);
 		ColorPicker colorPicker2 = new ColorPicker(Color.YELLOW);
+		
+		//	TODO figure out Opacity 
+		if(colorPicker1.getValue().getOpacity() < 1) {
+			String cp1 = colorPicker1.getValue().toString();
+			
+			colorPicker1.setValue(Color.web(cp1, 1));
+		}
 		
 		
 		TextField nameInput1 = new TextField();
@@ -101,7 +121,6 @@ public class MainMenu {
         );
 
         timeline.setCycleCount(100);
-		
 		
 		
 		welcomelbl.setEffect(GameDesign.lighting3D());
@@ -154,13 +173,5 @@ public class MainMenu {
         }
     }
 	
-	// Was meant to be used for the colour borders, didn't use so far...
-	private static String toHexString(Color color) {
-		  int r = ((int) Math.round(color.getRed()     * 255)) << 24;
-		  int g = ((int) Math.round(color.getGreen()   * 255)) << 16;
-		  int b = ((int) Math.round(color.getBlue()    * 255)) << 8;
-		  int a = ((int) Math.round(color.getOpacity() * 255));
-		  return String.format("#%08X", (r + g + b + a));
-		}
 
 }

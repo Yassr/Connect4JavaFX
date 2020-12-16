@@ -3,6 +3,8 @@ package application;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -32,11 +34,13 @@ public class Disc extends Circle{
 	private static Disc[][] grid = new Disc[GameDesign.getColumns()][GameDesign.getRows()];
 	private static Pane discRoot = new Pane();
 	private static Music discmusic = new Music("/audio/discDrop.wav");
+	private static Music victory = new Music("/audio/victory.wav");
+	
 	private static Pane namechng = new Pane();
 	private boolean turn = true;
 	private static ArrayList<String> movescounter = new ArrayList<>();
 	private static boolean isDraw = false;
-	
+	static MainMenu mm = new MainMenu();
 	
 	
 	public static boolean isDraw() {
@@ -123,7 +127,7 @@ public class Disc extends Circle{
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping
-		TranslateTransition drop = new TranslateTransition(Duration.seconds(0.0001), disc);
+		TranslateTransition drop = new TranslateTransition(Duration.seconds(0.7), disc);
 		drop.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		discmusic.playonce();
 		
@@ -137,19 +141,29 @@ public class Disc extends Circle{
 		drop.setOnFinished(e -> {
 			
 			if(GameDesign.gameEnd(column, cRow)) {
+				GameMain.getMainroot().setDisable(true);
 				
-				EndScreen.gameOver();
+				Timeline timeline = new Timeline(
+		                new KeyFrame(Duration.seconds(3.0))
+		        );
+				victory.playonce();
+		        timeline.setOnFinished(eg -> {
+		        EndScreen.gameOver();
+		        mm.getGameplay().stop();
+		        });
+		        timeline.play();
+//				EndScreen.gameOver();
 			}
 			// Switch players once the animation is over and the disc is placed
 			GameDesign.setPlayer1Move(!GameDesign.isPlayer1move());
 			
 			ds.turn = !(ds.turn);
 			
-			
-			// Un-disables the pane to let the next player to take their turn. 
-			GameMain.getMainroot().setDisable(false);
-			
-			
+			if(!GameDesign.gameEnd(column, cRow) && GameMain.getMainroot().isDisabled()) {
+				// Un-disables the pane to let the next player to take their turn. 
+				GameMain.getMainroot().setDisable(false);
+			}
+
 			movescounter.add("COL "+column+"  ROW  " + cRow);
 			System.out.println(movescounter.size());
 			System.out.println(ds.isDraw());

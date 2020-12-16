@@ -29,7 +29,7 @@ public class EndScreen {
 	
 	private static String winner = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
 	private static String loser = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
-	
+	private static Music endMusic = new Music("/audio/endMusic.wav");
 
 	
 	public static String getWinner() {
@@ -40,7 +40,7 @@ public class EndScreen {
 		return loser;
 	}
 	
-	static GridPane endPane() {
+	public static GridPane endPane() {
 		
 		GridPane gridPane = new GridPane();
 		
@@ -173,7 +173,7 @@ public class EndScreen {
 	
 	
 	protected static void gameOver() {
-		
+		endMusic.loop();
 		Leaderboard.writeLeaderBoard();
 //		Leaderboard.getLeaderboard().add(winner+" "+"Winner"+" "+ loser + " " + "Loser");
 		Scene endscene = new Scene(endPane(), 450, 500);
