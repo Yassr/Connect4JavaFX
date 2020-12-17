@@ -24,18 +24,19 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
- /*
-  * 
-  */
-
+/**
+ * 
+ * @author Yassr Shaar - 14328571
+ * The Class Disc deals with different aspects of the discs that are used to play the game
+ * There are a few methods specifically designed to be called during the drop of the disc.
+ */
 public class Disc extends Circle{
 	
-	private boolean colour1;
+	private boolean firstColour;
 	private static Disc[][] grid = new Disc[GameDesign.getColumns()][GameDesign.getRows()];
 	private static Pane discRoot = new Pane();
-	private static Music discmusic = new Music("/audio/discDrop.wav");
-	private static Music victory = new Music("/audio/victory.wav");
-	
+	private static Music discmusic = new Music("/audio/discDrop.wav", true);
+	private static Music victory = new Music("/audio/victory.wav", true);
 	private static Pane namechng = new Pane();
 	private boolean turn = true;
 	private static ArrayList<String> movescounter = new ArrayList<>();
@@ -47,25 +48,17 @@ public class Disc extends Circle{
 		return isDraw;
 	}
 
-
-
 	public static void setDraw(boolean isDraw) {
 		Disc.isDraw = isDraw;
 	}
-
-
 
 	public static ArrayList<String> getMovescounter() {
 		return movescounter;
 	}
 
-
-
-	boolean isColour1() {
-		return colour1;
+	boolean isFirstColour() {
+		return firstColour;
 	}
-	
-	
 	
 	static Pane getDiscRoot() {
 		return discRoot;
@@ -76,12 +69,17 @@ public class Disc extends Circle{
 	}
 
 	public Disc(){
-		
+		// An empty constructor for Disc() 
 	}
 	
+	/** 
+	 * firstColour is checked to determine which player's turn it is, once that is know, the colour is assigned to the disc to be dropped.
+	 * @param firstColour this boolean checks where the disc being dropped belongs to the first player i.e. Player1's colour.
+	 * The centerX and centerY are set so that the discs are dropped in the correct location which would be the Circles previously cut-out.
+	 */
 	public Disc(boolean colour1) {
 		super(GameDesign.getCircle(), colour1 ? Color.web(GameDesign.getPlayers().get(0).getColour()) : Color.web(GameDesign.getPlayers().get(1).getColour()));
-		this.colour1 = colour1;
+		this.firstColour = colour1;
 		
 		setCenterX(GameDesign.getCircle());
 		setCenterY(GameDesign.getCircle());
@@ -89,84 +87,74 @@ public class Disc extends Circle{
 	}
 	
 	/**
-	 * 
-	 * @param disc
-	 * @param column
+	 * Drop disc manages everything that occurs that allows a disc to drop and what happens WHILE the disc is dropping
+	 * @param disc this is an instance of Disc which knows the colour associated with the player who's turn it is.
+	 * @param column the column selected for dropping the disc
 	 */
 	static void dropDisc(Disc disc, int column) {
 		Disc ds = new Disc();
 		GameDesign gd = new GameDesign();
 		
 		int row = GameDesign.getRows() - 1; // Allows us to count from the maximum value so that discs can fall down
-		do {
+		
+		while(row >= 0) {
 			// Check if there is a disc in the column and row
 			// If it is empty we can continue to place the disc
 			if(!getDisc(column, row).isPresent()) {
 				break; 
 			}
-				 
 			row--;
-			
-		}while(row >= 0);
+		}
 			
 		if(row < 0) {
-			// TODO Add something fancy here to indicate that user cant place anymore
-			
-//			Alert winAlert = new Alert(AlertType.INFORMATION);
-//	        winAlert.setTitle("Not allowed");
-//	        winAlert.setHeaderText(null);
-//	        winAlert.setContentText("Can't place another disc here");
-//	        winAlert.show();
-			gd.getSelector().setOnMouseEntered(e -> gd.getSelector().setFill(Color.rgb(220, 0, 0, 0.3)));
-			gd.getSelector().setOnMouseExited(e -> gd.getSelector().setFill(Color.TRANSPARENT));
-			
+			// If the player tries to place a disc while there is no space left they will receive a warning
+			Alert winAlert = new Alert(AlertType.INFORMATION);
+	        winAlert.setTitle("Not allowed");
+	        winAlert.setHeaderText(null);
+	        winAlert.setContentText("Can't place another disc here");
+	        winAlert.show();
 			return;
 		}
-
 		
 		grid[column][row] = disc;
-		
-		
-		
+
 		discRoot.getChildren().add(disc);
+		
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping
-		TranslateTransition drop = new TranslateTransition(Duration.seconds(0.001), disc);
-		drop.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
-		discmusic.playonce();
+		TranslateTransition dropTransition = new TranslateTransition(Duration.seconds(0.001), disc);
+		dropTransition.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
+		
+		// Play the disc drop music sound
+		discmusic.play();
 		
 		// Ensures that while the animation of dropping a disc is occurring that the player can't drop multiple discs
-		GameMain.getMainroot().setDisable(true);
+		GameMain.getGameroot().setDisable(true);
 		
 	
 		final int cRow = row; // Current row
 		
-		
-		drop.setOnFinished(e -> {
+		dropTransition.setOnFinished(e -> {
 			
+			// Check if the game is won
 			if(GameDesign.gameEnd(column, cRow)) {
-				GameMain.getMainroot().setDisable(true);
 				
-				Timeline timeline = new Timeline(
-		                new KeyFrame(Duration.seconds(0.0))
-		        );
-				victory.playonce();
-		        timeline.setOnFinished(eg -> {
-		        EndScreen.gameOver();
-		        mm.getGameplay().stop();
-		        });
-		        timeline.play();
-//				EndScreen.gameOver();
+				// Stop the mainmenu music & play the victory sound clip
+				mm.getGameplaymusic().stop();
+				victory.play();
+
+				EndScreen.gameOver();
 			}
+			
 			// Switch players once the animation is over and the disc is placed
 			GameDesign.setPlayer1Move(!GameDesign.isPlayer1move());
 			
 			ds.turn = !(ds.turn);
 			
-			if(!GameDesign.gameEnd(column, cRow) && GameMain.getMainroot().isDisabled()) {
+			if(!GameDesign.gameEnd(column, cRow) && GameMain.getGameroot().isDisabled()) {
 				// Un-disables the pane to let the next player to take their turn. 
-				GameMain.getMainroot().setDisable(false);
+				GameMain.getGameroot().setDisable(false);
 			}
 
 			movescounter.add("COL "+column+"  ROW  " + cRow);
@@ -186,7 +174,7 @@ public class Disc extends Circle{
 			
 			
 		});
-		drop.play();
+		dropTransition.play();
 	}
 	
 	
@@ -262,7 +250,7 @@ public class Disc extends Circle{
 		
 	    plbl.setEffect(colourDepth);
 		
-		hbox.setBackground(new Background(new BackgroundFill(Color.rgb(0, 132, 132),CornerRadii.EMPTY,Insets.EMPTY)));
+		hbox.setBackground(new Background(new BackgroundFill(Color.rgb(0, 150, 150),CornerRadii.EMPTY,Insets.EMPTY)));
 		hbox.setTranslateY((gd.getRows()+0.9) * gd.getTileSize());
 		hbox.setTranslateX(2.5*gd.getTileSize());
 				

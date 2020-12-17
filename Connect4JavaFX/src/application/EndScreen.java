@@ -8,12 +8,18 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -24,12 +30,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class EndScreen {
 	
 	private static String winner = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
 	private static String loser = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
-	private static Music endMusic = new Music("/audio/endMusic.wav");
+	private static Music endMusic = new Music("/audio/endMusic.wav", true);
 
 	
 	public static String getWinner() {
@@ -44,7 +51,7 @@ public class EndScreen {
 		
 		GridPane gridPane = new GridPane();
 		
-		Button resetBtn = new Button("Rematch!");
+		Button resetBtn = new Button("Review Final Board!");
 		Button mainBtn = new Button("Main Menu");
 		
 		String winnerName = (GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName());
@@ -70,30 +77,10 @@ public class EndScreen {
 		loserTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 20));
 		loserTxt.setEffect(GameDesign.lighting3D());
 		
-		resetBtn.setOnAction(event -> {
-			try {
-				 
-//				GameMain.getStage().setScene(GameMain.getMainscene());
-				
-				Pane restartpane = new Pane();
-				
-				restartpane.getChildren().add(Disc.getDiscRoot());
-				
-				Shape gridShape = GameDesign.makeGrid();
-				
-				restartpane.getChildren().add(gridShape);
-				restartpane.getChildren().addAll(GameDesign.selection());
-				
-				GameMain.getStage().setScene(new Scene(restartpane));
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 		
-		});
 		
 		mainBtn.setOnAction(e -> {
-			GameMain.getStage().setScene(GameMain.getScene1());
+			GameMain.getStage().setScene(GameMain.getMainMenuScene());
 			// GameMain.getStage().setScene(new Scene(GameMain.getMainroot()));
 		});
 		
@@ -147,6 +134,57 @@ public class EndScreen {
 		loselbl.setTextFill(Color.web(loserColour));
 		loselbl.setEffect(GameDesign.lighting3D());
 		
+		
+		
+		resetBtn.setOnAction(event -> {
+			try {
+				 
+//				GameMain.getStage().setScene(GameMain.getMainscene());
+				
+				Pane restartpane = new Pane();
+				
+				restartpane.getChildren().add(Disc.getDiscRoot());
+				
+				Shape gridShape = GameDesign.makeGrid();
+				
+				
+				
+				
+				HBox hbox = new HBox();
+				hbox.setMinWidth((GameDesign.getColumns()-2) * GameDesign.getTileSize());
+				hbox.setPadding(new Insets(5, 5, 5 ,5));
+				
+				
+					
+				// lighting
+				Light.Distant light = new Light.Distant();
+			    light.setAzimuth(60.0);
+			    light.setElevation(80.0);
+			
+			    Lighting colourDepth = new Lighting();
+			    colourDepth.setLight(light);
+			    colourDepth.setSurfaceScale(5.0);
+				
+			    
+				
+				hbox.setBackground(new Background(new BackgroundFill(Color.rgb(0, 150, 150),CornerRadii.EMPTY,Insets.EMPTY)));
+				hbox.setTranslateY((GameDesign.getRows()+0.8) * GameDesign.getTileSize());
+				hbox.setTranslateX(2*GameDesign.getTileSize());
+						
+				winnerTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 28));
+				hbox.getChildren().add(winnerTxt);
+				restartpane.getChildren().addAll(gridShape, hbox);
+				restartpane.setDisable(true);
+				GameMain.getStage().setScene(new Scene(restartpane));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+		
+		});
+		
+		
+		
 		HBox hbox = new HBox(70);
 		
 		resetBtn.setPrefSize(GameDesign.getTileSize()*2,GameDesign.getTileSize());
@@ -173,7 +211,15 @@ public class EndScreen {
 	
 	
 	protected static void gameOver() {
-		endMusic.loop();
+		
+		// Create a Timeline to slow down the transition onto the next music clip
+		Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(3.3))
+        );
+		
+        timeline.setOnFinished(eg -> endMusic.loop());
+        timeline.play();
+		
 		Leaderboard.writeLeaderBoard();
 //		Leaderboard.getLeaderboard().add(winner+" "+"Winner"+" "+ loser + " " + "Loser");
 		Scene endscene = new Scene(endPane(), 450, 500);

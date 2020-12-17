@@ -4,51 +4,37 @@ import javax.sound.sampled.*;
 
 public class Music {
 	
-	private Clip clip;
+	private Clip audioClip;
     private String musicFile;
+    private boolean musicOn;
 	
     /*
-    * Initiates the clip
+    * Initiates the audioClip
     *
     * @param file String that contains the url of the sound file.
     */
-   public Music(String file) {
+   public Music(String file, boolean musicOn) {
        try {
-           musicFile = file;
+           this.musicFile = file;
+           this.musicOn = musicOn;
            AudioInputStream ais = AudioSystem.getAudioInputStream(Music.class.getResource(file));
-           clip = AudioSystem.getClip();
-           clip.open(ais);
+           audioClip = AudioSystem.getClip();
+           audioClip.open(ais);
+           
        } catch (Exception e) {
            e.printStackTrace();
        }
    }
+   
+   public Music() {
+       
+   }
+
 
    /**
-    * Restarts the clip.
+    * Creates a audioClip that only gets played once.
     */
-
    public void play() {
-       try {
-           if (clip != null) {
-               new Thread() {
-                   public void run() {
-                       synchronized (clip) {
-                           clip.stop();
-                           clip.setFramePosition(0);
-                           clip.start();
-                       }
-                   }
-               }.start();
-           }
-       } catch (Exception e) {
-           e.printStackTrace();
-       }
-   }
-
-   /**
-    * Creates a clip that only gets played once.
-    */
-   public void playonce() {
        Clip onceClip;
        try {
            AudioInputStream ais = AudioSystem.getAudioInputStream(Music.class.getResource(musicFile));
@@ -63,24 +49,25 @@ public class Music {
 
 
    /**
-    * Stops the clip
+    * Stops the audioClip
     */
    public void stop() {
-           clip.stop();
+	 musicOn = false;
+     audioClip.stop();
    }
 
    /**
-    * Loops the clip
+    * Loops the audioClip
     */
    public void loop() {
-       try {
-           if (clip != null) {
+	   try {
+           if (audioClip != null) {
                new Thread() {
                    public void run() {
-                       synchronized (clip) {
-                           clip.stop();
-                           clip.setFramePosition(0);
-                           clip.loop(Clip.LOOP_CONTINUOUSLY);
+                       synchronized (audioClip) {
+                           audioClip.stop();
+                           audioClip.setFramePosition(0);
+                           audioClip.loop(Clip.LOOP_CONTINUOUSLY);
                        }
                    }
                }.start();

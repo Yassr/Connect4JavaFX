@@ -3,6 +3,7 @@ package application;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -20,12 +21,12 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class MainMenu {
-	private static Music gameplay = new Music("/audio/gameplayMusic.wav");
+	private static boolean music = true;
+	private static Music gameplaymusic = new Music("/audio/gameplayMusic.wav", music);
 	private static Image on = new Image("/audio/audio_icon_ON.png");
 	private static Image off = new Image("/audio/audio_icon_OFF.png");
 	private static ImageView vimg1 = new ImageView(on);
 	private static ImageView vimg2 = new ImageView(off);
-	private static boolean music = true;
 	private static Button toggleMusic = new Button("Toggle Music");
 	
 	/*
@@ -46,8 +47,8 @@ public class MainMenu {
 	}
 
 
-	public static Music getGameplay() {
-		return gameplay;
+	public static Music getGameplaymusic() {
+		return gameplaymusic;
 	}
 
 
@@ -98,7 +99,7 @@ public class MainMenu {
 			GameDesign.createPlayer(nameInput1.getText(), colorPicker1.getValue().toString());
 			GameDesign.createPlayer(nameInput2.getText(), colorPicker2.getValue().toString());
 			
-			GameDesign.handleButtonAction(e);});
+			GameMain.getStage().setScene(new Scene(GameMain.startGame()));});
 		
 		
 		
@@ -155,7 +156,7 @@ public class MainMenu {
 		gridPane.add(startBtn, 2, 25);
 		gridPane.add(toggleMusic,3, 25);
 		timeline.play();
-//		gameplay.loop();
+//		gameplaymusic.loop();
 		return gridPane;
 	}
 		
@@ -165,11 +166,11 @@ public class MainMenu {
         if(music){
         	toggleMusic.setGraphic(vimg2);
             music = false;
-            gameplay.stop();
+            gameplaymusic.stop();
         } else {
         	toggleMusic.setGraphic(vimg1);
             music = true;
-            gameplay.loop();
+            gameplaymusic.loop();
         }
     }
 	

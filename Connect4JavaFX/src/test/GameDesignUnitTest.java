@@ -112,7 +112,7 @@ class GameDesignUnitTest {
 
 	@Test
 	void testSelection() {
-		List<Rectangle> mylist = gd.selection();
+		List<Rectangle> mylist = gd.selector();
 		
 		// Check if the object is != null
 		assertNotNull(mylist);

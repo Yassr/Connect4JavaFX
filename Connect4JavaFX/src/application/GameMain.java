@@ -17,18 +17,18 @@ import javafx.scene.layout.Pane;
  */
 public class GameMain extends Application{
 	
-	private static Pane mainroot = new Pane();
+	private static Pane gameroot = new Pane();
 	private static Stage stage;
-	private static Scene scene1 = new Scene(MainMenu.preference(), 450, 500);
+	private static Scene mainMenuScene = new Scene(MainMenu.preference(), 450, 500);
 	
 	
-	public static Scene getScene1() {
-		return scene1;
+	public static Scene getMainMenuScene() {
+		return mainMenuScene;
 	}
 	
 
-	public static Pane getMainroot() {
-		return mainroot;
+	public static Pane getGameroot() {
+		return gameroot;
 	}
 	
 	public static Stage getStage() {
@@ -43,39 +43,44 @@ public class GameMain extends Application{
 
 
 	/**
-	 * startGame() calls 
-	 * @return
+	 * startGame() adds the Discs layer followed by the grid on top of it 
+	 * then the different player names that change based on turns
+	 * and finally the selection high lighter is added on top of them all
+	 * 
+	 * @return the gameroot of the game
 	 */
 	public static Parent startGame() {
 
 		// Disc Root goes before game grid to give the illusion of a 3D board.
-		mainroot.getChildren().add(Disc.getDiscRoot());
+		gameroot.getChildren().add(Disc.getDiscRoot());
 		
 		Shape gridShape = GameDesign.makeGrid();
 		
-		mainroot.getChildren().add(gridShape);
-		mainroot.getChildren().add(Disc.getnamechng());
+		gameroot.getChildren().add(gridShape);
+		gameroot.getChildren().add(Disc.getnamechng());
+		gameroot.getChildren().addAll(GameDesign.selector());
 		
-		mainroot.getChildren().addAll(GameDesign.selection());
-		
-		
-		return mainroot;
+		return gameroot;
 	}
 	
 	
-
+	/**
+	 * Set the primaryStage title, set the Scene and show.
+	 */
 	@Override
     public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Connect 4");
 		
 		stage = primaryStage;
-
 		
-		primaryStage.setScene(scene1);
+		primaryStage.setScene(mainMenuScene);
         primaryStage.show();
     }
 	
-	
+	/** 
+	 * Launch the game
+	 * @param args
+	 */
 	public static void main(String[] args) {
         launch(args);
     }
