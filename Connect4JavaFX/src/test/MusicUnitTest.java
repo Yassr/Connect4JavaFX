@@ -18,7 +18,7 @@ class MusicUnitTest {
 		
 		JFXPanel jfxPanel = new JFXPanel();
 	
-		mm = new Music("/audio/victory.wav", true);
+		mm = new Music("/media/victory.wav", true);
 	}
 
 	@Test

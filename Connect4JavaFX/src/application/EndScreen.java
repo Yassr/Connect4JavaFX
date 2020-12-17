@@ -17,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -40,20 +42,20 @@ import javafx.util.Duration;
  *
  */
 public class EndScreen {
-	
-	private static String winner = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
-	private static String loser = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
-	private static Music endMusic = new Music("/audio/endMusic.wav", true);
+
+	private static Music endMusic = new Music("/media/endMusic.wav", true);
+	private static Image backimage = new Image("/media/backbutton.png");
+	private static ImageView vimg1 = new ImageView(backimage);
 
 	
-	public static String getWinner() {
-		return winner;
+	
+	
+	public static Music getEndMusic() {
+		return endMusic;
 	}
 
-	public static String getLoser() {
-		return loser;
-	}
-	
+
+
 	/**
 	 * Displays the outcome of the game along with the leaderboard
 	 * A button is available to review the state of the board when the game finished
@@ -63,12 +65,13 @@ public class EndScreen {
 		
 		GridPane gridPane = new GridPane();
 		
-		Button resetBtn = new Button("Review Final Board!");
+		Button finalgridBtn = new Button("Review Final Board!");
 		Button mainBtn = new Button("Main Menu");
 		
+		String winner = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
+		String loser = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
 		
 		String winnerColour = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
-		
 		String loserColour = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
 		
 		TextArea leaderArea = new TextArea();
@@ -77,7 +80,7 @@ public class EndScreen {
 		Text winnerTxt = new Text("Congratulations: "+winner);
 		winnerTxt.setFill(Color.web(winnerColour));
 		
-		winnerTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
+		winnerTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 28));
         winnerTxt.setEffect(GameDesign.lighting3D());
        
 		
@@ -91,8 +94,8 @@ public class EndScreen {
 		
 		
 		mainBtn.setOnAction(e -> {
+			endMusic.stop();
 			GameMain.getStage().setScene(GameMain.getMainMenuScene());
-			// GameMain.getStage().setScene(new Scene(GameMain.getMainroot()));
 		});
 		
 		
@@ -131,8 +134,7 @@ public class EndScreen {
 		leaderArea.setEditable(false);
 		
 		StackPane leaderPane = new StackPane(leaderArea);
-		leaderPane.setMinSize(280, 250);
-		
+		leaderPane.setPrefSize(280, 250);
 		
 		Label winlbl= new Label("Winner");
 		Label loselbl= new Label("        Loser");
@@ -147,26 +149,28 @@ public class EndScreen {
 		
 		
 		
-		resetBtn.setOnAction(event -> {
+		finalgridBtn.setOnAction(event -> {
 			try {
 				 
 //				GameMain.getStage().setScene(GameMain.getMainscene());
 				
-				Pane restartpane = new Pane();
+				Pane finalpaneview = new Pane();
 				
-				restartpane.getChildren().add(Disc.getDiscRoot());
+				finalpaneview.getChildren().add(Disc.getDiscRoot());
 				
 				Shape gridShape = GameDesign.makeGrid();
-				
-				
 				
 				
 				HBox hbox = new HBox();
 				hbox.setMinWidth((GameDesign.getColumns()-2) * GameDesign.getTileSize());
 				hbox.setPadding(new Insets(5, 5, 5 ,5));
 				
+				Button back = new Button("Click to Back");
+				vimg1.setFitHeight(30);
+				vimg1.setPreserveRatio(true);
+				back.setGraphic(vimg1);
+				back.setBackground(new Background(new BackgroundFill(Color.rgb(0, 150, 150),CornerRadii.EMPTY,Insets.EMPTY)));
 				
-					
 				// lighting
 				Light.Distant light = new Light.Distant();
 			    light.setAzimuth(60.0);
@@ -176,17 +180,35 @@ public class EndScreen {
 			    colourDepth.setLight(light);
 			    colourDepth.setSurfaceScale(5.0);
 				
-			    
 				
 				hbox.setBackground(new Background(new BackgroundFill(Color.rgb(0, 150, 150),CornerRadii.EMPTY,Insets.EMPTY)));
 				hbox.setTranslateY((GameDesign.getRows()+0.8) * GameDesign.getTileSize());
-				hbox.setTranslateX(2*GameDesign.getTileSize());
+				hbox.setTranslateX(50);
 						
-				winnerTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 28));
-				hbox.getChildren().add(winnerTxt);
-				restartpane.getChildren().addAll(gridShape, hbox);
-				restartpane.setDisable(true);
-				GameMain.getStage().setScene(new Scene(restartpane));
+				Text drawTxt = new Text("DRAW");
+				
+				drawTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 28));
+				drawTxt.setEffect(GameDesign.lighting3D());
+				
+				//---------
+				Scene endscene = new Scene(endPane(), 410, 500);
+				back.setOnMouseClicked(e -> GameMain.getStage().setScene(endscene));
+				
+				//---------
+				
+				
+				if(Disc.isDraw()) {
+					hbox.getChildren().add(back);
+					hbox.getChildren().add(drawTxt);
+				}else {
+					hbox.getChildren().add(back);
+					hbox.getChildren().add(winnerTxt);
+				}
+				
+				finalpaneview.getChildren().addAll(gridShape, hbox);
+				gridShape.setDisable(true);
+				
+				GameMain.getStage().setScene(new Scene(finalpaneview));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -196,9 +218,9 @@ public class EndScreen {
 		
 		
 		
-		HBox hbox = new HBox(70);
+		HBox hbox = new HBox(30);
 		
-		resetBtn.setPrefSize(GameDesign.getTileSize()*2,GameDesign.getTileSize());
+		finalgridBtn.setPrefSize(GameDesign.getTileSize()*2,GameDesign.getTileSize());
 		mainBtn.setPrefSize(GameDesign.getTileSize()*2,GameDesign.getTileSize());
 		
 
@@ -206,19 +228,41 @@ public class EndScreen {
 		gridPane.setVgap(8);
 		gridPane.setHgap(10);
 		
-		/*
-		 * TODO add Draw graphics
-		 */
-		gridPane.add(winnerTxt, 2, 0);
-		gridPane.add(loserTxt, 2, 2);
-		wbox.getChildren().addAll(winlbl,loselbl);
-		gridPane.add(wbox, 2, 8);
-		gridPane.add(leaderPane, 2, 10);
-		hbox.getChildren().addAll(mainBtn,resetBtn);
-		gridPane.add(hbox, 2, 15);
 		
 		
-		return gridPane;
+
+		Text drawtext = new Text("DRAW");
+		drawtext.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
+		drawtext.setEffect(GameDesign.lighting3D());
+		
+		Text blnt = new Text ("Better Luck Next time");
+		blnt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
+		blnt.setEffect(GameDesign.lighting3D());
+		
+		if(Disc.isDraw()) {
+			gridPane.add(drawtext, 2, 0);
+			gridPane.add(blnt, 2, 2);
+			wbox.getChildren().addAll(winlbl,loselbl);
+			gridPane.add(wbox, 2, 8);
+			gridPane.add(leaderPane, 2, 10);
+			hbox.getChildren().addAll(mainBtn,finalgridBtn);
+			gridPane.add(hbox, 2, 15);
+			
+			return gridPane;
+		}else {
+			gridPane.add(winnerTxt, 2, 0);
+			gridPane.add(loserTxt, 2, 2);
+			wbox.getChildren().addAll(winlbl,loselbl);
+			gridPane.add(wbox, 2, 8);
+			gridPane.add(leaderPane, 2, 10);
+			hbox.getChildren().addAll(mainBtn,finalgridBtn);
+			gridPane.add(hbox, 2, 11);
+			
+			return gridPane;
+		}
+		
+		
+		
 	}
 	
 	
@@ -234,9 +278,8 @@ public class EndScreen {
         timeline.play();
 		
 		Leaderboard.writeLeaderBoard();
-//		Leaderboard.getLeaderboard().add(winner+" "+"Winner"+" "+ loser + " " + "Loser");
-		Scene endscene = new Scene(endPane(), 450, 500);
 		
+		Scene endscene = new Scene(endPane(), 410, 500);
 		GameMain.getStage().setScene(endscene);
         
 		// Checks if player 1 Won or Player 2

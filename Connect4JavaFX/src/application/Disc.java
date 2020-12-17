@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -35,16 +36,26 @@ public class Disc extends Circle{
 	private boolean firstColour;
 	private static Disc[][] grid = new Disc[GameDesign.getColumns()][GameDesign.getRows()];
 	private static Pane discRoot = new Pane();
-	private static Music discmusic = new Music("/audio/discDrop.wav", true);
-	private static Music victory = new Music("/audio/victory.wav", true);
-	private static Music drawMusic = new Music("/audio/drawmusic.wav", true);
+	private static Music discmusic = new Music("/media/discDrop.wav", true);
+	private static Music victory = new Music("/media/victory.wav", true);
+	private static Music drawMusic = new Music("/media/drawmusic.wav", true);
 	private static Pane namechng = new Pane();
 	private boolean turn = true;
 	private static ArrayList<String> movescounter = new ArrayList<>();
 	private static boolean isDraw = false;
 	static MainMenu mm = new MainMenu();
+	static HBox hbox;
 	
 	
+	
+	public boolean isTurn() {
+		return turn;
+	}
+
+	public void setTurn(boolean turn) {
+		this.turn = turn;
+	}
+
 	public static Music getVictory() {
 		return victory;
 	}
@@ -134,7 +145,7 @@ public class Disc extends Circle{
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping
-		TranslateTransition dropTransition = new TranslateTransition(Duration.seconds(0.0001), disc);
+		TranslateTransition dropTransition = new TranslateTransition(Duration.seconds(0.001), disc);
 		dropTransition.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Play the disc drop music sound
@@ -211,6 +222,7 @@ public class Disc extends Circle{
 	 * Actions that take place once a Draw is declared
 	 */
 	public void drawCheck() {
+		
 		mm.getGameplaymusic().stop();
 		drawMusic.play(2);
 		
@@ -252,7 +264,7 @@ public class Disc extends Circle{
 			
 		}
 	
-		HBox hbox = new HBox();
+		hbox = new HBox();
 		hbox.setMinWidth((gd.getColumns()-2) * gd.getTileSize());
 		hbox.setPadding(new Insets(5, 5, 5 ,5));
 		
@@ -282,13 +294,24 @@ public class Disc extends Circle{
 		// --------------------------------------------------------
 	}
 	
-	/* Was very close to making this work, unfortunate.
+	/**
+	 * Clears the entire board and allows for a new game to be launched
+	 * This is done by first clearing the moves counter
+	 * Followed by clearing the changed name display
+	 * Then setting the turn & Player1Move back to the first player
+	 * Create a new grid
+	 * clear the disc root
+	 */
 	public static void clearAll() {
-		// Cries in ~Static variables~
-		victory.stop();
+		isDraw = false;
+		movescounter.removeAll(movescounter);
+		namechng.getChildren().clear();
+		Disc dc = new Disc();
+		dc.setTurn(true);
+		GameDesign.setPlayer1Move(true);
 		grid = new Disc[GameDesign.getColumns()][GameDesign.getRows()];
 		discRoot.getChildren().clear();
 	}
-	*/
+	
 	
 }

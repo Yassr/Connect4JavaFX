@@ -32,11 +32,11 @@ import javafx.util.Duration;
  *
  */
 public class MainMenu {
-	private static Pane gameroot = new Pane();
+	private static Pane gameroot;
 	private static boolean music = true;
-	private static Music gameplaymusic = new Music("/audio/gameplayMusic.wav", music);
-	private static Image on = new Image("/audio/audio_icon_ON.png");
-	private static Image off = new Image("/audio/audio_icon_OFF.png");
+	private static Music gameplaymusic = new Music("/media/gameplayMusic.wav", music);
+	private static Image on = new Image("/media/audio_icon_ON.png");
+	private static Image off = new Image("/media/audio_icon_OFF.png");
 	private static ImageView vimg1 = new ImageView(on);
 	private static ImageView vimg2 = new ImageView(off);
 	private static Button toggleMusic = new Button("Toggle Music");
@@ -107,6 +107,8 @@ public class MainMenu {
 		nameInput2.setPromptText("Choose a name (max 8 chars)");
 		
 		startBtn.setOnAction(e -> {
+			GameDesign.getPlayers().removeAll(GameDesign.getPlayers());
+			
 			GameDesign.setCOLUMNS(columnSpinner.getValue());
 			GameDesign.setROWS(rowSpinner.getValue());
 			GameDesign.createPlayer(nameInput1.getText(), colorPicker1.getValue().toString());
@@ -191,7 +193,8 @@ public class MainMenu {
 	 */
 	public static Parent startGame() {
 		
-		
+		Disc.clearAll();
+		gameroot = new Pane();
 		// Disc Root goes before game grid to give the illusion of a 3D board.
 		gameroot.getChildren().clear();
 		gameroot.getChildren().add(Disc.getDiscRoot());

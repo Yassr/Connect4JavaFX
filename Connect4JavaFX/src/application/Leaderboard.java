@@ -18,6 +18,9 @@ public class Leaderboard {
 
 	
 	public static void writeLeaderBoard() {
+		String winner = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
+		String loser = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
+		
 		try {
 			File saveFile = new File("leaderboard.txt");
 			
@@ -29,7 +32,7 @@ public class Leaderboard {
 				String text = "draw draw\n";
 				Files.write(Paths.get("leaderboard.txt"), (text).getBytes(), StandardOpenOption.APPEND);
 			}else {
-				String text = EndScreen.getWinner()+" "+EndScreen.getLoser()+"\n";
+				String text = winner+" "+loser+"\n";
 				Files.write(Paths.get("leaderboard.txt"), (text).getBytes(), StandardOpenOption.APPEND);
 			}
 			
@@ -65,7 +68,6 @@ public class Leaderboard {
 				if(input[0].length() < 5 ) {
 					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t\t"+ input[1]);
 				}else if(input[0].length() >= 5){
-//					input[0].substring(0, 5);
 					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t"+ input[1]);
 				}
 				

@@ -27,19 +27,19 @@ class EndScreenUnitTest {
 		
 	}
 
-	@Test
-	void testGetWinner() {
-		
-		// Assumes the last move made is the winner
-		// By default player 1 gets the first move (and in this case last move)
-		assertEquals("Player1", es.getWinner());
-	}
-
-	@Test
-	void testGetLoser() {
-		// Player 1 got the last move so player 2 is the loser.
-		assertEquals("Player2", es.getLoser());
-	}
+//	@Test
+//	void testGetWinner() {
+//		
+//		// Assumes the last move made is the winner
+//		// By default player 1 gets the first move (and in this case last move)
+//		assertEquals("Player1", es.getWinner());
+//	}
+//
+//	@Test
+//	void testGetLoser() {
+//		// Player 1 got the last move so player 2 is the loser.
+//		assertEquals("Player2", es.getLoser());
+//	}
 
 	@Test
 	void testEndPane() {
