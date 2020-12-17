@@ -32,6 +32,13 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+/**
+ * 
+ * @author Yassr Shaar - 14328571
+ * the EndScreen class displays the winner and loser of each game
+ * Followed by the leaderboard of the winner, loser and if the game ended with a draw
+ *
+ */
 public class EndScreen {
 	
 	private static String winner = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
@@ -47,6 +54,11 @@ public class EndScreen {
 		return loser;
 	}
 	
+	/**
+	 * Displays the outcome of the game along with the leaderboard
+	 * A button is available to review the state of the board when the game finished
+	 * @return the gridPane to be displayed
+	 */
 	public static GridPane endPane() {
 		
 		GridPane gridPane = new GridPane();
@@ -54,23 +66,22 @@ public class EndScreen {
 		Button resetBtn = new Button("Review Final Board!");
 		Button mainBtn = new Button("Main Menu");
 		
-		String winnerName = (GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName());
+		
 		String winnerColour = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
 		
-		String loserName = (!GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName());
 		String loserColour = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
 		
 		TextArea leaderArea = new TextArea();
 		
 		
-		Text winnerTxt = new Text("Congratulations: "+winnerName);
+		Text winnerTxt = new Text("Congratulations: "+winner);
 		winnerTxt.setFill(Color.web(winnerColour));
 		
 		winnerTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
         winnerTxt.setEffect(GameDesign.lighting3D());
        
 		
-		Text loserTxt = new Text("Better Luck Next time " + loserName);
+		Text loserTxt = new Text("Better Luck Next time " + loser);
 		loserTxt.setFill(Color.web(loserColour));
 		
 		
@@ -195,7 +206,9 @@ public class EndScreen {
 		gridPane.setVgap(8);
 		gridPane.setHgap(10);
 		
-		
+		/*
+		 * TODO add Draw graphics
+		 */
 		gridPane.add(winnerTxt, 2, 0);
 		gridPane.add(loserTxt, 2, 2);
 		wbox.getChildren().addAll(winlbl,loselbl);

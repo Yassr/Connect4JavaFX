@@ -37,6 +37,7 @@ public class Disc extends Circle{
 	private static Pane discRoot = new Pane();
 	private static Music discmusic = new Music("/audio/discDrop.wav", true);
 	private static Music victory = new Music("/audio/victory.wav", true);
+	private static Music drawMusic = new Music("/audio/drawmusic.wav", true);
 	private static Pane namechng = new Pane();
 	private boolean turn = true;
 	private static ArrayList<String> movescounter = new ArrayList<>();
@@ -44,6 +45,10 @@ public class Disc extends Circle{
 	static MainMenu mm = new MainMenu();
 	
 	
+	public static Music getVictory() {
+		return victory;
+	}
+
 	public static boolean isDraw() {
 		return isDraw;
 	}
@@ -66,6 +71,12 @@ public class Disc extends Circle{
 	
 	static Pane getnamechng() {
 		return namechng;
+	}
+	
+	
+
+	public static void setGrid(Disc[][] grid) {
+		Disc.grid = grid;
 	}
 
 	public Disc(){
@@ -123,14 +134,14 @@ public class Disc extends Circle{
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping
-		TranslateTransition dropTransition = new TranslateTransition(Duration.seconds(0.001), disc);
+		TranslateTransition dropTransition = new TranslateTransition(Duration.seconds(0.0001), disc);
 		dropTransition.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Play the disc drop music sound
-		discmusic.play();
+		discmusic.play(1);
 		
 		// Ensures that while the animation of dropping a disc is occurring that the player can't drop multiple discs
-		GameMain.getGameroot().setDisable(true);
+		mm.getGameroot().setDisable(true);
 		
 	
 		final int cRow = row; // Current row
@@ -142,7 +153,7 @@ public class Disc extends Circle{
 				
 				// Stop the mainmenu music & play the victory sound clip
 				mm.getGameplaymusic().stop();
-				victory.play();
+				victory.play(1);
 
 				EndScreen.gameOver();
 			}
@@ -152,36 +163,41 @@ public class Disc extends Circle{
 			
 			ds.turn = !(ds.turn);
 			
-			if(!GameDesign.gameEnd(column, cRow) && GameMain.getGameroot().isDisabled()) {
+			if(!GameDesign.gameEnd(column, cRow) && mm.getGameroot().isDisabled()) {
 				// Un-disables the pane to let the next player to take their turn. 
-				GameMain.getGameroot().setDisable(false);
+				mm.getGameroot().setDisable(false);
 			}
 
-			movescounter.add("COL "+column+"  ROW  " + cRow);
+			// Add the move that was just played into our moves counter
+			movescounter.add(column+" " + cRow);
 			System.out.println(movescounter.size());
 			System.out.println(ds.isDraw());
 			
+			// Check if the size of moves counter is the same as the size of tiles on the board
+			// This would declare a DRAW, where no player has won
 			if(movescounter.size() == (gd.getRows()*gd.getColumns())) {
 				ds.drawCheck();
 				return;
 			}
-			
-			
-			
-			// Player name change
+
+			// Player name change for each Turn
 			ds.playerTurn();
-			
-			
-			
+				
 		});
 		dropTransition.play();
 	}
 	
 	
-	/* check if we can place disc given the coordinates
+
+	/**
+	 * check if we can place disc given the coordinates
 	 * Return null if we don't have any discs on that position
+	 * 
+	 * @param column
+	 * @param row
+	 * @return optional.empty(), meaning it wont ever be null, 
+	 * Optional.ofNullable is used to return an instance of this Optional class with the specified value of grid[column][row]
 	 */
-	
 	public static Optional<Disc> getDisc(int column, int row){
 		if(column < 0 || column >= GameDesign.getColumns() || row < 0 || row >= GameDesign.getRows()) {
 			return Optional.empty(); // .empty() ensures we don't get a null point exception!
@@ -191,19 +207,22 @@ public class Disc extends Circle{
 		
 	}	
 	
-	
+	/**
+	 * Actions that take place once a Draw is declared
+	 */
 	public void drawCheck() {
+		mm.getGameplaymusic().stop();
+		drawMusic.play(2);
+		
 		Disc ds = new Disc();
-		Alert winAlert = new Alert(AlertType.INFORMATION);
-        winAlert.setTitle("Game Over!");
-        winAlert.setHeaderText(null);
-        winAlert.setContentText("DRAW");
-        winAlert.show();
         ds.setDraw(true);
         System.out.println(ds.isDraw());
         EndScreen.gameOver();
 	}
 	
+	/**
+	 * This method is used to find which player's turn it is and display the player's name during the game at the bottom of the Pane
+	 */
 	public void playerTurn() {
 		Disc ds = new Disc();
 		GameDesign gd = new GameDesign();
@@ -262,5 +281,14 @@ public class Disc extends Circle{
 		
 		// --------------------------------------------------------
 	}
+	
+	/* Was very close to making this work, unfortunate.
+	public static void clearAll() {
+		// Cries in ~Static variables~
+		victory.stop();
+		grid = new Disc[GameDesign.getColumns()][GameDesign.getRows()];
+		discRoot.getChildren().clear();
+	}
+	*/
 	
 }

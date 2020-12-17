@@ -25,8 +25,15 @@ public class Leaderboard {
 				saveFile.createNewFile();
 			}
 			
-			String text = EndScreen.getWinner()+" "+EndScreen.getLoser()+"\n";
-			Files.write(Paths.get("leaderboard.txt"), (text).getBytes(), StandardOpenOption.APPEND);
+			if(dc.isDraw()) {
+				String text = "draw draw\n";
+				Files.write(Paths.get("leaderboard.txt"), (text).getBytes(), StandardOpenOption.APPEND);
+			}else {
+				String text = EndScreen.getWinner()+" "+EndScreen.getLoser()+"\n";
+				Files.write(Paths.get("leaderboard.txt"), (text).getBytes(), StandardOpenOption.APPEND);
+			}
+			
+			
 			
 			
 		}catch(IOException ex) {
@@ -50,20 +57,18 @@ public class Leaderboard {
 				System.out.println(cleaner);
 				String[] input = cleaner.split(" ");
 				
-				if(dc.isDraw()) {
-					Leaderboard.getLeaderboard().add("\t\tDRAW");
-				}else {
-					if(input[0].isEmpty() || input[1].isEmpty()) {
-						continue;
-					}
-
-					if(input[0].length() < 6 ) {
-						Leaderboard.getLeaderboard().add(input[0]+"\t\t\t\t"+ input[1]);
-					}else if(input[0].length() >= 6){
-						input[0].substring(0, 5);
-						Leaderboard.getLeaderboard().add(input[0]+"\t\t\t"+ input[1]);
-					}
+				
+				if(input[0].isEmpty() || input[1].isEmpty()) {
+					continue;
 				}
+
+				if(input[0].length() < 5 ) {
+					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t\t"+ input[1]);
+				}else if(input[0].length() >= 5){
+//					input[0].substring(0, 5);
+					Leaderboard.getLeaderboard().add(input[0]+"\t\t\t"+ input[1]);
+				}
+				
 				
 			}
 			in.close();

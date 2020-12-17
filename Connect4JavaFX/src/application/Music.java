@@ -34,17 +34,21 @@ public class Music {
    /**
     * Creates a audioClip that only gets played once.
     */
-   public void play() {
+   public void play(int repeat) {
        Clip onceClip;
-       try {
-           AudioInputStream ais = AudioSystem.getAudioInputStream(Music.class.getResource(musicFile));
-           onceClip = AudioSystem.getClip();
-           onceClip.open(ais);
-           onceClip.setFramePosition(0);
-           onceClip.start();
-       } catch (Exception e) {
-           e.printStackTrace();
+       
+       for(int i = 0; i < repeat; i++) {
+    	   try {
+               AudioInputStream ais = AudioSystem.getAudioInputStream(Music.class.getResource(musicFile));
+               onceClip = AudioSystem.getClip();
+               onceClip.open(ais);
+               onceClip.loop(i);
+               onceClip.start();
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
        }
+       
    }
 
 
