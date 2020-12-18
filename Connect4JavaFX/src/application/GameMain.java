@@ -46,7 +46,7 @@ public class GameMain extends Application{
 	 */
 	@Override
     public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Connect 4");
+		primaryStage.setTitle("Connect 4 FX");
 		
 		stage = primaryStage;
 		

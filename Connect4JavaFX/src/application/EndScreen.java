@@ -52,6 +52,31 @@ public class EndScreen {
 	private static ArrayList<String> textread = new ArrayList<String>();
 	
 	
+	
+	/**
+	 * This method is called when the game is determined to be over.
+	 * It starts off by waiting a few seconds then playing the end music
+	 * Then calls the method writeLeaderBoard() from Class Leaderboard
+	 * Finally the scene is set
+	 */
+	protected static void gameOver() {
+		
+		// Create a Timeline to slow down the transition onto the next music clip
+		Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(3.5))
+        );
+		// After waiting 3.5 seconds the end music is played in a loop
+        timeline.setOnFinished(eg -> endMusic.loop());
+        timeline.play();
+		
+        // The leaderboard is written onto
+		Leaderboard.writeLeaderBoard();
+		
+		Scene endscene = new Scene(endPane(), 410, 500);
+		GameMain.getStage().setScene(endscene);
+        
+	}
+	
 
 	/**
 	 * Displays the outcome of the game along with the leaderboard
@@ -277,28 +302,6 @@ public class EndScreen {
 	}
 	
 	
-	/**
-	 * This method is called when the game is determined to be over.
-	 * It starts off by waiting a few seconds then playing the end music
-	 * Then calls the method writeLeaderBoard() from Class Leaderboard
-	 * Finally the scene is set
-	 */
-	protected static void gameOver() {
-		
-		// Create a Timeline to slow down the transition onto the next music clip
-		Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(3.5))
-        );
-		// After waiting 3.5 seconds the end music is played in a loop
-        timeline.setOnFinished(eg -> endMusic.loop());
-        timeline.play();
-		
-        // The leaderboard is written onto
-		Leaderboard.writeLeaderBoard();
-		
-		Scene endscene = new Scene(endPane(), 410, 500);
-		GameMain.getStage().setScene(endscene);
-        
-	}
+	
 
 }
