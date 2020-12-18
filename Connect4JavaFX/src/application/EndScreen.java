@@ -93,52 +93,8 @@ public class EndScreen {
 			GameMain.getStage().setScene(GameMain.getMainMenuScene());
 		});
 		
-		
-		// Leader board text area
-		TextArea leaderArea = new TextArea();
-		Leaderboard reader = new Leaderboard();
-		
-		/*
-		 * Leaderboard implementation
-		 * Future is used to make a promise that there will be a list of strings returned
-		 */
-		
-		Iterator<String> i = textread.iterator();
-		
-		while (i.hasNext()) {
-			   String str = i.next(); // must be called before you can call i.remove()
-			   // remove any previous entries in the leaderboard
-			   i.remove();
-			}
-		
-		textread = reader.readFile(new File("leaderboard.txt"));
-		System.out.println(textread);
-		
-		
-		Future<List<String>> future;
-		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		
-		final List<String> readable = textread;
-		future = executorService.submit(new Callable<List<String>>() {
-			@SuppressWarnings("static-access")
-			public List<String> call() throws Exception {
-				return readable;
-			}
-		});
-		
-		List<String> lines;
-		try {
-			lines = future.get();
-			// Allows all the lines to be retrieved before terminating 
-			executorService.shutdownNow();
-			leaderArea.clear();
-			for (String line : lines ) {
-				// Prints the results of each line from the leaderboard.txt
-				leaderArea.appendText(line + "\n");
-			}	
-		} catch (InterruptedException | ExecutionException e1) {
-			e1.printStackTrace();
-		} 
+		// Calls function to pprint the leaderboard onto the text area
+		TextArea leaderArea = printLeaderTextArea(); 
 		
 	
 		
@@ -269,6 +225,55 @@ public class EndScreen {
 		
 		return gridPane;
 		
+	}
+
+
+	private static TextArea printLeaderTextArea() {
+		// Leader board text area
+		TextArea leaderArea = new TextArea();
+		Leaderboard reader = new Leaderboard();
+		
+		/*
+		 * Leaderboard implementation
+		 * Future is used to make a promise that there will be a list of strings returned
+		 */
+		
+		Iterator<String> i = textread.iterator();
+		
+		while (i.hasNext()) {
+			   String str = i.next(); // must be called before you can call i.remove()
+			   // remove any previous entries in the leaderboard
+			   i.remove();
+			}
+		
+		textread = reader.readFile(new File("leaderboard.txt"));
+		
+		
+		Future<List<String>> future;
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		
+		final List<String> readable = textread;
+		future = executorService.submit(new Callable<List<String>>() {
+			@SuppressWarnings("static-access")
+			public List<String> call() throws Exception {
+				return readable;
+			}
+		});
+		
+		List<String> lines;
+		try {
+			lines = future.get();
+			// Allows all the lines to be retrieved before terminating 
+			executorService.shutdownNow();
+			leaderArea.clear();
+			for (String line : lines ) {
+				// Prints the results of each line from the leaderboard.txt
+				leaderArea.appendText(line + "\n");
+			}	
+		} catch (InterruptedException | ExecutionException e1) {
+			e1.printStackTrace();
+		}
+		return leaderArea;
 	}
 	
 	
