@@ -142,7 +142,7 @@ public class Disc extends Circle{
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping
-		TranslateTransition dropTransition = new TranslateTransition(Duration.seconds(0.0001), disc);
+		TranslateTransition dropTransition = new TranslateTransition(Duration.seconds(0.5), disc);
 		dropTransition.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Play the disc drop music sound

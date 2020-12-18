@@ -108,7 +108,6 @@ public class MainMenu {
 		startBtn.setOnAction(e -> {
 		
 			toggleMusic.setGraphic(vimg2);
-			GameDesign.getPlayers().removeAll(GameDesign.getPlayers());
 			
 			GameDesign.setCOLUMNS(columnSpinner.getValue());
 			GameDesign.setROWS(rowSpinner.getValue());
