@@ -94,9 +94,9 @@ public class Disc extends Circle{
 	 * @param colour1 this boolean checks where the disc being dropped belongs to the first player i.e. Player1's colour.
 	 * The centerX and centerY are set so that the discs are dropped in the correct location which would be the Circles previously cut-out.
 	 */
-	public Disc(boolean colour1) {
-		super(GameDesign.getCircle(), colour1 ? Color.web(GameDesign.getPlayers().get(0).getColour()) : Color.web(GameDesign.getPlayers().get(1).getColour()));
-		this.firstColour = colour1;
+	public Disc(boolean firstColour) {
+		super(GameDesign.getCircle(), firstColour ? Color.web(GameDesign.getPlayers().get(0).getColour()) : Color.web(GameDesign.getPlayers().get(1).getColour()));
+		this.firstColour = firstColour;
 		
 		setCenterX(GameDesign.getCircle());
 		setCenterY(GameDesign.getCircle());
