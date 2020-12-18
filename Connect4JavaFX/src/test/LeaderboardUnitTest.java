@@ -44,7 +44,7 @@ class LeaderboardUnitTest {
 		
 		ld.writeLeaderBoard();
 		File saveFile = new File("leaderboard.txt");
-		ArrayList<String> ldstr = ld.read(saveFile);
+		ArrayList<String> ldstr = ld.readFile(saveFile);
 		
 		for(String win : ldstr ) {
 			

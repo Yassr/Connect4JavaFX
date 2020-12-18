@@ -1,6 +1,8 @@
 package application;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -46,11 +48,10 @@ public class EndScreen {
 	private static final Music endMusic = new Music("/media/endMusic.wav", true);
 	private static final Image backimage = new Image("/media/backbutton.png");
 	private static final ImageView vimg1 = new ImageView(backimage);
-	private boolean winnercheck = GameDesign.isPlayer1move();
 
-	public boolean isWinnercheck() {
-		return winnercheck;
-	}
+	private static ArrayList<String> textread = new ArrayList<String>();
+	
+	
 
 	/**
 	 * Displays the outcome of the game along with the leaderboard
@@ -59,7 +60,7 @@ public class EndScreen {
 	 * @return the gridPane to be displayed
 	 */
 	public static GridPane endPane() {
-		EndScreen es = new EndScreen();
+		
 		GridPane gridPane = new GridPane();
 		
 		// Create the two buttons for the screen
@@ -67,7 +68,6 @@ public class EndScreen {
 		Button mainBtn = new Button("Main Menu");
 
 		// Get winner and loser names
-		GameDesign.setPlayer1Move(es.isWinnercheck());
 		String winner = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
 		String loser = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
 		// Get winner and loser colours
@@ -96,19 +96,33 @@ public class EndScreen {
 		
 		// Leader board text area
 		TextArea leaderArea = new TextArea();
+		Leaderboard reader = new Leaderboard();
 		
 		/*
 		 * Leaderboard implementation
 		 * Future is used to make a promise that there will be a list of strings returned
 		 */
+		
+		Iterator<String> i = textread.iterator();
+		
+		while (i.hasNext()) {
+			   String str = i.next(); // must be called before you can call i.remove()
+			   // remove any previous entries in the leaderboard
+			   i.remove();
+			}
+		
+		textread = reader.readFile(new File("leaderboard.txt"));
+		System.out.println(textread);
+		
+		
 		Future<List<String>> future;
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		Leaderboard reader = new Leaderboard();
 		
+		final List<String> readable = textread;
 		future = executorService.submit(new Callable<List<String>>() {
 			@SuppressWarnings("static-access")
 			public List<String> call() throws Exception {
-				return reader.read(new File("leaderboard.txt"));
+				return readable;
 			}
 		});
 		
@@ -125,6 +139,8 @@ public class EndScreen {
 		} catch (InterruptedException | ExecutionException e1) {
 			e1.printStackTrace();
 		} 
+		
+	
 		
 		leaderArea.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 18));
 		leaderArea.setEditable(false);
@@ -156,7 +172,7 @@ public class EndScreen {
 		// Button that displays the final state of game's pane
 		finalgridBtn.setOnAction(event -> {
 			try {
-
+				textread.clear();
 				// Create new pane and add the game root
 				Pane finalpaneview = new Pane();
 				finalpaneview.getChildren().add(Disc.getDiscRoot());

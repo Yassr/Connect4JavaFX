@@ -58,7 +58,7 @@ public class Leaderboard {
 	 * @param saveFile is retrieved to read the leaderboard.txt of previous games
 	 * @return the leaderboard ArrayList which contains all of the details from leaderboard.txt
 	 */
-	public static ArrayList<String> read(File saveFile) {
+	public static ArrayList<String> readFile(File saveFile) {
 		try {
 			
 			if(!saveFile.exists()) {

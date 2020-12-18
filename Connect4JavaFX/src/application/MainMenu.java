@@ -106,6 +106,8 @@ public class MainMenu {
 		nameInput2.setPromptText("Choose a name (max 8 chars)");
 		
 		startBtn.setOnAction(e -> {
+		
+			toggleMusic.setGraphic(vimg2);
 			GameDesign.getPlayers().removeAll(GameDesign.getPlayers());
 			
 			GameDesign.setCOLUMNS(columnSpinner.getValue());
@@ -138,8 +140,8 @@ public class MainMenu {
                 new KeyFrame(Duration.seconds(1.0), e -> welcomelbl.setTextFill(Color.web(colorPicker2.getValue().toString())))
         );
 
-		// Repeat the cycle up to 100 times..after which it'll stay on one colour
-        timeline.setCycleCount(100);
+		// Repeat the cycle up to 400 times..after which it'll stay on one colour
+        timeline.setCycleCount(400);
 		
 		
 		welcomelbl.setEffect(GameDesign.lighting3D());

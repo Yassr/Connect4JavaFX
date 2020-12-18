@@ -42,6 +42,8 @@ public class Disc extends Circle{
 	private static boolean isDraw = false;
 	static MainMenu mm = new MainMenu();
 	static HBox turnBox;
+	
+
 
 	public static Pane getNamechng() {
 		return namechng;
@@ -164,11 +166,9 @@ public class Disc extends Circle{
 			}
 			
 			
-			
 			if(!GameDesign.gameEnd(column, cRow) && mm.getGameroot().isDisabled()) {
 				// Un-disables the pane to let the next player to take their turn. 
 				mm.getGameroot().setDisable(false);
-				
 				// Switch players once the animation is over and the disc is placed
 				GameDesign.setPlayer1Move(!GameDesign.isPlayer1move());
 
@@ -223,7 +223,6 @@ public class Disc extends Circle{
 		
 		Disc ds = new Disc();
         ds.setDraw(true);
-        System.out.println(ds.isDraw());
         EndScreen.gameOver();
 	}
 	
@@ -242,22 +241,20 @@ public class Disc extends Circle{
 		String player2Colour = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
 		
 		Label plbl = new Label("");
-		
-		
 	
 		// Player name change depending on the turn
 		if(!ds.turn) {
 			plbl.setText("Turn :\t  "+ player2Name);
 			plbl.setTextFill(Color.web(player2Colour));
 			
-			ds.turn = true;
+			ds.turn = false;
 			
 		}else if(ds.turn){
 	
 			plbl.setText("Turn :\t  "+ player1Name);
 			plbl.setTextFill(Color.web(player1Colour));
 			
-			ds.turn = false;
+			ds.turn = true;
 			
 		}
 	
@@ -309,3 +306,5 @@ public class Disc extends Circle{
 	
 	
 }
+	
+
