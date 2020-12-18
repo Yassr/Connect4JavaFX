@@ -24,7 +24,7 @@ class GameMainUnitTest{
 //	@Test
 //	void testStartGame() {
 //
-//		assertThrows(gm.start(gm.getStage()));
+//		assertNotNull(gm.getStage());
 //
 //	}
 

@@ -52,14 +52,14 @@ class MainMenuUnitTest{
 		/	between true or false
 		*/
 		
-		// true --> false
-//		mm.musicToggle();
-//		assertEquals(false, mm.isMusic());
-//		
-//		
-//		// false --> true
-//		mm.musicToggle();
-//		assertEquals(true, mm.isMusic());
+//		 true --> false
+		mm.musicToggle();
+		assertEquals(false, mm.isMusic());
+		
+		
+		// false --> true
+		mm.musicToggle();
+		assertEquals(true, mm.isMusic());
 		
 	}
 
