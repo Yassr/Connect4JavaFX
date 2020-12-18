@@ -140,7 +140,7 @@ public class Disc extends Circle{
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping
-		TranslateTransition dropTransition = new TranslateTransition(Duration.seconds(0.5), disc);
+		TranslateTransition dropTransition = new TranslateTransition(Duration.seconds(0.0001), disc);
 		dropTransition.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Play the disc drop music sound
@@ -163,15 +163,17 @@ public class Disc extends Circle{
 				EndScreen.gameOver();
 			}
 			
-			// Switch players once the animation is over and the disc is placed
-			GameDesign.setPlayer1Move(!GameDesign.isPlayer1move());
-
-			// Change the turn boolean checker
-			ds.turn = !(ds.turn);
+			
 			
 			if(!GameDesign.gameEnd(column, cRow) && mm.getGameroot().isDisabled()) {
 				// Un-disables the pane to let the next player to take their turn. 
 				mm.getGameroot().setDisable(false);
+				
+				// Switch players once the animation is over and the disc is placed
+				GameDesign.setPlayer1Move(!GameDesign.isPlayer1move());
+
+				// Change the turn boolean checker
+				ds.turn = !(ds.turn);
 			}
 
 			// Add the move that was just played into our moves counter
@@ -240,20 +242,22 @@ public class Disc extends Circle{
 		String player2Colour = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
 		
 		Label plbl = new Label("");
+		
+		
 	
 		// Player name change depending on the turn
 		if(!ds.turn) {
 			plbl.setText("Turn :\t  "+ player2Name);
 			plbl.setTextFill(Color.web(player2Colour));
 			
-			ds.turn = false;
+			ds.turn = true;
 			
 		}else if(ds.turn){
 	
 			plbl.setText("Turn :\t  "+ player1Name);
 			plbl.setTextFill(Color.web(player1Colour));
 			
-			ds.turn = true;
+			ds.turn = false;
 			
 		}
 	

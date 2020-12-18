@@ -46,7 +46,11 @@ public class EndScreen {
 	private static final Music endMusic = new Music("/media/endMusic.wav", true);
 	private static final Image backimage = new Image("/media/backbutton.png");
 	private static final ImageView vimg1 = new ImageView(backimage);
-	private static final boolean winnercheck = GameDesign.isPlayer1move();
+	private boolean winnercheck = GameDesign.isPlayer1move();
+
+	public boolean isWinnercheck() {
+		return winnercheck;
+	}
 
 	/**
 	 * Displays the outcome of the game along with the leaderboard
@@ -55,7 +59,7 @@ public class EndScreen {
 	 * @return the gridPane to be displayed
 	 */
 	public static GridPane endPane() {
-		
+		EndScreen es = new EndScreen();
 		GridPane gridPane = new GridPane();
 		
 		// Create the two buttons for the screen
@@ -63,7 +67,7 @@ public class EndScreen {
 		Button mainBtn = new Button("Main Menu");
 
 		// Get winner and loser names
-		GameDesign.setPlayer1Move(winnercheck);
+		GameDesign.setPlayer1Move(es.isWinnercheck());
 		String winner = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
 		String loser = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
 		// Get winner and loser colours
