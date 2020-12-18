@@ -109,6 +109,9 @@ public class MainMenu {
 		
 			toggleMusic.setGraphic(vimg2);
 			
+			// This ensures that when a new game is started the game takes into consideration new players
+			GameDesign.getPlayers().removeAll(GameDesign.getPlayers());
+			
 			GameDesign.setCOLUMNS(columnSpinner.getValue());
 			GameDesign.setROWS(rowSpinner.getValue());
 			GameDesign.createPlayer(nameInput1.getText(), colorPicker1.getValue().toString());

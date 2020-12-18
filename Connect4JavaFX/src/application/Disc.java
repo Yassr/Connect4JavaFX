@@ -90,7 +90,7 @@ public class Disc extends Circle{
 	}
 	
 	/** 
-	 * firstColour is checked to determine which player's turn it is, once that is know, the colour is assigned to the disc to be dropped.
+	 * firstColour is checked to determine which player's turn it is, once that is known, the colour is assigned to the disc to be dropped.
 	 * @param colour1 this boolean checks where the disc being dropped belongs to the first player i.e. Player1's colour.
 	 * The centerX and centerY are set so that the discs are dropped in the correct location which would be the Circles previously cut-out.
 	 */

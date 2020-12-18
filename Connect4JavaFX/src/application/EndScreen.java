@@ -93,7 +93,7 @@ public class EndScreen {
 			GameMain.getStage().setScene(GameMain.getMainMenuScene());
 		});
 		
-		// Calls function to pprint the leaderboard onto the text area
+		// Calls function to print the leaderboard onto the text area
 		TextArea leaderArea = printLeaderTextArea(); 
 		
 	
