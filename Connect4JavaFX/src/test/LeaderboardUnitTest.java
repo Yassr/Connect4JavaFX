@@ -52,7 +52,7 @@ class LeaderboardUnitTest {
 			str = win.replaceAll("\t", "");
 			String[] input = str.split("");
 			
-			assertEquals("Player1Player2", str);
+			assertEquals("Player2Player1", str);
 		}
 	}
 

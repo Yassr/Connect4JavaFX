@@ -24,6 +24,7 @@ class GameDesignUnitTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		JFXPanel jfxPanel = new JFXPanel();
 		gd = new GameDesign();
 	}
 	

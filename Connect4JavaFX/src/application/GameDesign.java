@@ -15,18 +15,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
-
-
-/*
- *	@TODO Add Music
- * 
- */
-
 /** 
  * 
  * @author Yassr Shaar - 14328571
  * This class focuses on the main game and everything involved in its gameplay
- * Visuals: creating the board, Selector & lighting effects
+ * Visuals: creating the board, Selector and lighting effects
  * Gameplay: Creating players, Check for winner and end of game.
  */
 public class GameDesign {
@@ -105,9 +98,8 @@ public class GameDesign {
 	 * @return the Shape of the board
 	 */
 	public static Shape makeGrid() {
-		Shape board = new Rectangle((COLUMNS+1) * TILE_SIZE, (ROWS+1) * TILE_SIZE+50);
-		
-	
+		Shape board = new Rectangle((COLUMNS+1) * TILE_SIZE-10, (ROWS+1) * TILE_SIZE+50);
+
 		for(int y = 0; y < ROWS; y++) {
 			for(int x = 0; x < COLUMNS; x++) {
 				Circle circle = new Circle(CIRCLE);
@@ -212,10 +204,10 @@ public class GameDesign {
 	/**
 	 * gameEnd is called within Disc to check if the game has ended.
 	 * The points on the board are calculated to determine if 3 points to the left/right/diagonally
-	 * of the current point in Column & row is of the required combination to win. 
+	 * of the current point in Column and row is of the required combination to win.
 	 * 
-	 * @param column 
-	 * @param row
+	 * @param column of where the discs are
+	 * @param row of where the discs are
 	 * @return Calls checkWin on each of the Point lists to return a true or false on whether a win has occurred.
 	 */
 	public static boolean gameEnd(int column, int row) {

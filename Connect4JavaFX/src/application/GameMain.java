@@ -19,7 +19,7 @@ public class GameMain extends Application{
 	
 	
 	private static Stage stage;
-	private static Scene mainMenuScene = new Scene(MainMenu.preference(), 450, 500);
+	private static final Scene mainMenuScene = new Scene(MainMenu.preference(), 450, 500);
 	
 	
 	public static Scene getMainMenuScene() {
@@ -56,7 +56,7 @@ public class GameMain extends Application{
 	
 	/** 
 	 * Launch the game
-	 * @param args
+	 * @param args to allow launching the game
 	 */
 	public static void main(String[] args) {
         launch(args);

@@ -14,19 +14,18 @@ import javafx.stage.Stage;
 
 class GameMainUnitTest{
 
-	GameMain gc;
+	GameMain gm;
 	@BeforeEach
 	void setUp() throws Exception {
 		JFXPanel jfxPanel = new JFXPanel();
-		gc = new GameMain();
+		gm = new GameMain();
 	}
 	
 //	@Test
 //	void testStartGame() {
-//		Pane gmsg = (Pane) gc.startGame();
 //
-//		assertNotNull(gmsg);
-//		assertTrue(gmsg instanceof Pane);
+//		assertThrows(gm.start(gm.getStage()));
+//
 //	}
 
 

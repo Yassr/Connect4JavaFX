@@ -15,7 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
@@ -34,7 +33,7 @@ import javafx.util.Duration;
 public class MainMenu {
 	private static Pane gameroot;
 	private static boolean music = true;
-	private static Music gameplaymusic = new Music("/media/gameplayMusic.wav", music);
+	private static final Music gameplaymusic = new Music("/media/gameplayMusic.wav", music);
 	private static Image on = new Image("/media/audio_icon_ON.png");
 	private static Image off = new Image("/media/audio_icon_OFF.png");
 	private static ImageView vimg1 = new ImageView(on);
@@ -63,7 +62,7 @@ public class MainMenu {
 
 
 	/**
-	 * Takes in the player preferences Name, colour picker choice & board size
+	 * Takes in the player preferences Name, colour picker choice and board size
 	 * @return the gridPane to be displayed
 	 */
 	public static GridPane preference() {

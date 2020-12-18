@@ -56,18 +56,6 @@ class DiscUnitTest {
 	}
 	
 
-//	@Test
-//	void testDropDisc() {
-//	
-//		int rows = 0;
-//		
-////		assertEquals(6, rows);
-//		final int column =gd.getColumns();
-//		Disc.dropDisc(new Disc(colour), column);
-//		
-////		assertEquals(5, rows);
-//		
-//	}
 
 	@Test
 	void testGetDisc() {
@@ -82,6 +70,12 @@ class DiscUnitTest {
 		// ensure that the return is optional.empty(), meaning it wont ever be null
 		assertEquals(Optional.empty(), dd);
 		
+	}
+
+	@Test
+	void testclearAll(){
+		assertFalse(disc.isDraw());
+		assertTrue(disc.getMovescounter().isEmpty());
 	}
 
 }

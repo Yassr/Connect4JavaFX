@@ -43,67 +43,59 @@ import javafx.util.Duration;
  */
 public class EndScreen {
 
-	private static Music endMusic = new Music("/media/endMusic.wav", true);
-	private static Image backimage = new Image("/media/backbutton.png");
-	private static ImageView vimg1 = new ImageView(backimage);
-
-	
-	
-	
-	public static Music getEndMusic() {
-		return endMusic;
-	}
-
-
+	private static final Music endMusic = new Music("/media/endMusic.wav", true);
+	private static final Image backimage = new Image("/media/backbutton.png");
+	private static final ImageView vimg1 = new ImageView(backimage);
+	private static final boolean winnercheck = GameDesign.isPlayer1move();
 
 	/**
 	 * Displays the outcome of the game along with the leaderboard
-	 * A button is available to review the state of the board when the game finished
+	 * Two buttons are available, one to return to main menu and play again, 
+	 * another to review the state of the board when the game finished
 	 * @return the gridPane to be displayed
 	 */
 	public static GridPane endPane() {
 		
 		GridPane gridPane = new GridPane();
 		
+		// Create the two buttons for the screen
 		Button finalgridBtn = new Button("Review Final Board!");
 		Button mainBtn = new Button("Main Menu");
-		
+
+		// Get winner and loser names
+		GameDesign.setPlayer1Move(winnercheck);
 		String winner = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
 		String loser = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName();
-		
+		// Get winner and loser colours
 		String winnerColour = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
 		String loserColour = !GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
 		
-		TextArea leaderArea = new TextArea();
 		
-		
+		// Winner and loser messages
 		Text winnerTxt = new Text("Congratulations: "+winner);
 		winnerTxt.setFill(Color.web(winnerColour));
-		
 		winnerTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 28));
         winnerTxt.setEffect(GameDesign.lighting3D());
        
 		
 		Text loserTxt = new Text("Better Luck Next time " + loser);
 		loserTxt.setFill(Color.web(loserColour));
-		
-		
 		loserTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 20));
 		loserTxt.setEffect(GameDesign.lighting3D());
 		
-		
-		
+		// Go back to Main menu button, first stops end music then changes scenes
 		mainBtn.setOnAction(e -> {
 			endMusic.stop();
 			GameMain.getStage().setScene(GameMain.getMainMenuScene());
 		});
 		
 		
-		
-		
+		// Leader board text area
+		TextArea leaderArea = new TextArea();
 		
 		/*
 		 * Leaderboard implementation
+		 * Future is used to make a promise that there will be a list of strings returned
 		 */
 		Future<List<String>> future;
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -119,14 +111,14 @@ public class EndScreen {
 		List<String> lines;
 		try {
 			lines = future.get();
+			// Allows all the lines to be retrieved before terminating 
 			executorService.shutdownNow();
 			leaderArea.clear();
 			for (String line : lines ) {
+				// Prints the results of each line from the leaderboard.txt
 				leaderArea.appendText(line + "\n");
-			}
-			
+			}	
 		} catch (InterruptedException | ExecutionException e1) {
-			
 			e1.printStackTrace();
 		} 
 		
@@ -143,33 +135,41 @@ public class EndScreen {
 		winlbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 22));
 		winlbl.setTextFill(Color.web(winnerColour));
 		winlbl.setEffect(GameDesign.lighting3D());
+		
 		loselbl.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 22));
 		loselbl.setTextFill(Color.web(loserColour));
 		loselbl.setEffect(GameDesign.lighting3D());
 		
+		Text drawtext = new Text("DRAW");
+		drawtext.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
+		drawtext.setEffect(GameDesign.lighting3D());
+		
+		Text blnt = new Text ("Better Luck Next time");
+		blnt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
+		blnt.setEffect(GameDesign.lighting3D());
 		
 		
+		// Button that displays the final state of game's pane
 		finalgridBtn.setOnAction(event -> {
 			try {
-				 
-//				GameMain.getStage().setScene(GameMain.getMainscene());
-				
+
+				// Create new pane and add the game root
 				Pane finalpaneview = new Pane();
-				
 				finalpaneview.getChildren().add(Disc.getDiscRoot());
 				
+				// Create a new shape that takes on the previous grid details
 				Shape gridShape = GameDesign.makeGrid();
 				
+				HBox detailsBox = new HBox();
+				detailsBox.setMinWidth((GameDesign.getColumns()-2) * GameDesign.getTileSize());
+				detailsBox.setPadding(new Insets(5, 5, 5 ,5));
 				
-				HBox hbox = new HBox();
-				hbox.setMinWidth((GameDesign.getColumns()-2) * GameDesign.getTileSize());
-				hbox.setPadding(new Insets(5, 5, 5 ,5));
-				
-				Button back = new Button("Click to Back");
+				// Back button for going back to the End Screen
+				Button backBtn = new Button("Click to Back");
 				vimg1.setFitHeight(30);
 				vimg1.setPreserveRatio(true);
-				back.setGraphic(vimg1);
-				back.setBackground(new Background(new BackgroundFill(Color.rgb(0, 150, 150),CornerRadii.EMPTY,Insets.EMPTY)));
+				backBtn.setGraphic(vimg1);
+				backBtn.setBackground(new Background(new BackgroundFill(Color.rgb(0, 150, 150),CornerRadii.EMPTY,Insets.EMPTY)));
 				
 				// lighting
 				Light.Distant light = new Light.Distant();
@@ -180,32 +180,33 @@ public class EndScreen {
 			    colourDepth.setLight(light);
 			    colourDepth.setSurfaceScale(5.0);
 				
+				detailsBox.setBackground(new Background(new BackgroundFill(Color.rgb(0, 150, 150),CornerRadii.EMPTY,Insets.EMPTY)));
+				detailsBox.setTranslateY((GameDesign.getRows()+0.8) * GameDesign.getTileSize());
+				detailsBox.setTranslateX(50);
 				
-				hbox.setBackground(new Background(new BackgroundFill(Color.rgb(0, 150, 150),CornerRadii.EMPTY,Insets.EMPTY)));
-				hbox.setTranslateY((GameDesign.getRows()+0.8) * GameDesign.getTileSize());
-				hbox.setTranslateX(50);
-						
+				
 				Text drawTxt = new Text("DRAW");
-				
 				drawTxt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 28));
 				drawTxt.setEffect(GameDesign.lighting3D());
 				
-				//---------
+				// backButton action event, go back to end screen
 				Scene endscene = new Scene(endPane(), 410, 500);
-				back.setOnMouseClicked(e -> GameMain.getStage().setScene(endscene));
+				backBtn.setOnMouseClicked(e -> GameMain.getStage().setScene(endscene));
+
 				
-				//---------
-				
-				
+				// Check's if the game resulted in a Draw or a win.
 				if(Disc.isDraw()) {
-					hbox.getChildren().add(back);
-					hbox.getChildren().add(drawTxt);
+					// if the game is a draw then Draw is displayed
+					detailsBox.getChildren().add(backBtn);
+					detailsBox.getChildren().add(drawTxt);
 				}else {
-					hbox.getChildren().add(back);
-					hbox.getChildren().add(winnerTxt);
+					// Else the winner is displayed
+					detailsBox.getChildren().add(backBtn);
+					detailsBox.getChildren().add(winnerTxt);
 				}
-				
-				finalpaneview.getChildren().addAll(gridShape, hbox);
+
+				finalpaneview.getChildren().addAll(gridShape, detailsBox);
+				// Disable the grid Pane so no further input can be taken in
 				gridShape.setDisable(true);
 				
 				GameMain.getStage().setScene(new Scene(finalpaneview));
@@ -217,75 +218,61 @@ public class EndScreen {
 		});
 		
 		
-		
-		HBox hbox = new HBox(30);
+		// Horizontal box made for the buttons with a distance of 30 between them
+		HBox buttonsBox = new HBox(30);
 		
 		finalgridBtn.setPrefSize(GameDesign.getTileSize()*2,GameDesign.getTileSize());
 		mainBtn.setPrefSize(GameDesign.getTileSize()*2,GameDesign.getTileSize());
 		
-
+		// Adds padding and gaps between elements in the gridPane
 		gridPane.setPadding(new Insets(10, 10, 10 ,10));
 		gridPane.setVgap(8);
 		gridPane.setHgap(10);
-		
-		
-		
-
-		Text drawtext = new Text("DRAW");
-		drawtext.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
-		drawtext.setEffect(GameDesign.lighting3D());
-		
-		Text blnt = new Text ("Better Luck Next time");
-		blnt.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 24));
-		blnt.setEffect(GameDesign.lighting3D());
-		
+			
+		//Depending on if the game resulted in a Draw or a win different elements are displayed on the screen
 		if(Disc.isDraw()) {
 			gridPane.add(drawtext, 2, 0);
 			gridPane.add(blnt, 2, 2);
-			wbox.getChildren().addAll(winlbl,loselbl);
-			gridPane.add(wbox, 2, 8);
-			gridPane.add(leaderPane, 2, 10);
-			hbox.getChildren().addAll(mainBtn,finalgridBtn);
-			gridPane.add(hbox, 2, 15);
 			
-			return gridPane;
 		}else {
 			gridPane.add(winnerTxt, 2, 0);
 			gridPane.add(loserTxt, 2, 2);
-			wbox.getChildren().addAll(winlbl,loselbl);
-			gridPane.add(wbox, 2, 8);
-			gridPane.add(leaderPane, 2, 10);
-			hbox.getChildren().addAll(mainBtn,finalgridBtn);
-			gridPane.add(hbox, 2, 11);
 			
-			return gridPane;
 		}
 		
+		// Add all of the remainder items to be viewed on the gridPane
+		wbox.getChildren().addAll(winlbl,loselbl);
+		gridPane.add(wbox, 2, 8);
+		gridPane.add(leaderPane, 2, 10);
+		buttonsBox.getChildren().addAll(mainBtn,finalgridBtn);
+		gridPane.add(buttonsBox, 2, 15);
 		
+		return gridPane;
 		
 	}
 	
 	
-	
+	/**
+	 * This method is called when the game is determined to be over.
+	 * It starts off by waiting a few seconds then playing the end music
+	 * Then calls the method writeLeaderBoard() from Class Leaderboard
+	 * Finally the scene is set
+	 */
 	protected static void gameOver() {
 		
 		// Create a Timeline to slow down the transition onto the next music clip
 		Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(3.3))
+                new KeyFrame(Duration.seconds(3.5))
         );
-		
+		// After waiting 3.5 seconds the end music is played in a loop
         timeline.setOnFinished(eg -> endMusic.loop());
         timeline.play();
 		
+        // The leaderboard is written onto
 		Leaderboard.writeLeaderBoard();
 		
 		Scene endscene = new Scene(endPane(), 410, 500);
 		GameMain.getStage().setScene(endscene);
-        
-		// Checks if player 1 Won or Player 2
-		System.out.println("Winner: " + (GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName()));
-        
-        
         
 	}
 

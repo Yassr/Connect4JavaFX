@@ -3,8 +3,6 @@ package application;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -15,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -44,10 +41,12 @@ public class Disc extends Circle{
 	private static ArrayList<String> movescounter = new ArrayList<>();
 	private static boolean isDraw = false;
 	static MainMenu mm = new MainMenu();
-	static HBox hbox;
-	
-	
-	
+	static HBox turnBox;
+
+	public static Pane getNamechng() {
+		return namechng;
+	}
+
 	public boolean isTurn() {
 		return turn;
 	}
@@ -56,20 +55,12 @@ public class Disc extends Circle{
 		this.turn = turn;
 	}
 
-	public static Music getVictory() {
-		return victory;
-	}
-
 	public static boolean isDraw() {
 		return isDraw;
 	}
 
 	public static void setDraw(boolean isDraw) {
 		Disc.isDraw = isDraw;
-	}
-
-	public static ArrayList<String> getMovescounter() {
-		return movescounter;
 	}
 
 	boolean isFirstColour() {
@@ -83,8 +74,10 @@ public class Disc extends Circle{
 	static Pane getnamechng() {
 		return namechng;
 	}
-	
-	
+
+	public static ArrayList<String> getMovescounter() {
+		return movescounter;
+	}
 
 	public static void setGrid(Disc[][] grid) {
 		Disc.grid = grid;
@@ -96,7 +89,7 @@ public class Disc extends Circle{
 	
 	/** 
 	 * firstColour is checked to determine which player's turn it is, once that is know, the colour is assigned to the disc to be dropped.
-	 * @param firstColour this boolean checks where the disc being dropped belongs to the first player i.e. Player1's colour.
+	 * @param colour1 this boolean checks where the disc being dropped belongs to the first player i.e. Player1's colour.
 	 * The centerX and centerY are set so that the discs are dropped in the correct location which would be the Circles previously cut-out.
 	 */
 	public Disc(boolean colour1) {
@@ -113,7 +106,7 @@ public class Disc extends Circle{
 	 * @param disc this is an instance of Disc which knows the colour associated with the player who's turn it is.
 	 * @param column the column selected for dropping the disc
 	 */
-	static void dropDisc(Disc disc, int column) {
+	public static void dropDisc(Disc disc, int column) {
 		Disc ds = new Disc();
 		GameDesign gd = new GameDesign();
 		
@@ -138,6 +131,8 @@ public class Disc extends Circle{
 			return;
 		}
 		
+		// Stores the column and row where the disc landed. 
+		// This is critical to ensure that the discs stack on top of each other and that we can find the game winner.
 		grid[column][row] = disc;
 
 		discRoot.getChildren().add(disc);
@@ -145,7 +140,7 @@ public class Disc extends Circle{
 		disc.setTranslateX(column * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Animation of disc dropping
-		TranslateTransition dropTransition = new TranslateTransition(Duration.seconds(0.001), disc);
+		TranslateTransition dropTransition = new TranslateTransition(Duration.seconds(0.5), disc);
 		dropTransition.setToY(row * (GameDesign.getTileSize() + 5) + GameDesign.getTileSize() / 4);
 		
 		// Play the disc drop music sound
@@ -153,8 +148,7 @@ public class Disc extends Circle{
 		
 		// Ensures that while the animation of dropping a disc is occurring that the player can't drop multiple discs
 		mm.getGameroot().setDisable(true);
-		
-	
+
 		final int cRow = row; // Current row
 		
 		dropTransition.setOnFinished(e -> {
@@ -171,7 +165,8 @@ public class Disc extends Circle{
 			
 			// Switch players once the animation is over and the disc is placed
 			GameDesign.setPlayer1Move(!GameDesign.isPlayer1move());
-			
+
+			// Change the turn boolean checker
 			ds.turn = !(ds.turn);
 			
 			if(!GameDesign.gameEnd(column, cRow) && mm.getGameroot().isDisabled()) {
@@ -181,8 +176,6 @@ public class Disc extends Circle{
 
 			// Add the move that was just played into our moves counter
 			movescounter.add(column+" " + cRow);
-			System.out.println(movescounter.size());
-			System.out.println(ds.isDraw());
 			
 			// Check if the size of moves counter is the same as the size of tiles on the board
 			// This would declare a DRAW, where no player has won
@@ -204,8 +197,8 @@ public class Disc extends Circle{
 	 * check if we can place disc given the coordinates
 	 * Return null if we don't have any discs on that position
 	 * 
-	 * @param column
-	 * @param row
+	 * @param column of the disc
+	 * @param row of the disc
 	 * @return optional.empty(), meaning it wont ever be null, 
 	 * Optional.ofNullable is used to return an instance of this Optional class with the specified value of grid[column][row]
 	 */
@@ -238,8 +231,8 @@ public class Disc extends Circle{
 	public void playerTurn() {
 		Disc ds = new Disc();
 		GameDesign gd = new GameDesign();
-	// --------------------Player Name change------------------------------------
-	
+
+
 		String player1Name = (GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getName() : GameDesign.getPlayers().get(1).getName());
 		String player1Colour = GameDesign.isPlayer1move() ? GameDesign.getPlayers().get(0).getColour() : GameDesign.getPlayers().get(1).getColour();
 		
@@ -248,7 +241,7 @@ public class Disc extends Circle{
 		
 		Label plbl = new Label("");
 	
-		
+		// Player name change depending on the turn
 		if(!ds.turn) {
 			plbl.setText("Turn :\t  "+ player2Name);
 			plbl.setTextFill(Color.web(player2Colour));
@@ -264,9 +257,9 @@ public class Disc extends Circle{
 			
 		}
 	
-		hbox = new HBox();
-		hbox.setMinWidth((gd.getColumns()-2) * gd.getTileSize());
-		hbox.setPadding(new Insets(5, 5, 5 ,5));
+		turnBox = new HBox();
+		turnBox.setMinWidth((gd.getColumns()-2) * gd.getTileSize());
+		turnBox.setPadding(new Insets(5, 5, 5 ,5));
 		
 		plbl.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 24));
 			
@@ -281,24 +274,21 @@ public class Disc extends Circle{
 		
 	    plbl.setEffect(colourDepth);
 		
-		hbox.setBackground(new Background(new BackgroundFill(Color.rgb(0, 150, 150),CornerRadii.EMPTY,Insets.EMPTY)));
-		hbox.setTranslateY((gd.getRows()+0.9) * gd.getTileSize());
-		hbox.setTranslateX(2.5*gd.getTileSize());
+		turnBox.setBackground(new Background(new BackgroundFill(Color.rgb(0, 150, 150),CornerRadii.EMPTY,Insets.EMPTY)));
+		turnBox.setTranslateY((gd.getRows()+0.9) * gd.getTileSize());
+		turnBox.setTranslateX(2.5*gd.getTileSize());
 				
 		
-		hbox.getChildren().add(plbl);
+		turnBox.getChildren().add(plbl);
 		
-		namechng.getChildren().add(hbox);
-		
-		
-		// --------------------------------------------------------
+		namechng.getChildren().add(turnBox);
 	}
 	
 	/**
 	 * Clears the entire board and allows for a new game to be launched
 	 * This is done by first clearing the moves counter
 	 * Followed by clearing the changed name display
-	 * Then setting the turn & Player1Move back to the first player
+	 * Then setting the turn and Player1Move back to the first player
 	 * Create a new grid
 	 * clear the disc root
 	 */
