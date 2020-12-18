@@ -253,7 +253,7 @@ public class EndScreen {
 	}
 
 
-	private static TextArea printLeaderTextArea() {
+	public static TextArea printLeaderTextArea() {
 		// Leader board text area
 		TextArea leaderArea = new TextArea();
 		Leaderboard reader = new Leaderboard();

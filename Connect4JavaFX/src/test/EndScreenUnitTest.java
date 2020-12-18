@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import application.EndScreen;
 import application.GameDesign;
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 
 @SuppressWarnings("static-access")
@@ -38,5 +39,15 @@ class EndScreenUnitTest {
 	}
 
 
+	@Test
+	void testprintLeaderTextArea() {
+		
+		TextArea ta = es.printLeaderTextArea();
+		assertNotNull(ta);
+		
+		// Ensures that a GridPane is returned
+		assertTrue(ta instanceof TextArea);
+		
+	}
 
 }
